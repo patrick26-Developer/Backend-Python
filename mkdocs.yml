@@ -1,0 +1,108 @@
+# Site de la formation — build : mkdocs build   /   preview : mkdocs serve
+# Génère un site statique navigable et consultable hors ligne.
+site_name: "Backend-Python — Maîtriser FastAPI"
+site_description: "Formation complète : concevoir, développer, tester et exploiter des API FastAPI de niveau production."
+site_author: "Patrick De Grâce"
+copyright: "&copy; 2026 Patrick De Grâce — Contenu tous droits réservés (voir LICENSING.md)"
+
+# On documente « en place » : les .md vivent à côté du code.
+# Le plugin same-dir autorise docs_dir = dossier du mkdocs.yml.
+docs_dir: .
+site_dir: site
+
+exclude_docs: |
+  .venv/
+  .github/
+  .ruff_cache/
+  .mypy_cache/
+  .pytest_cache/
+  site/
+  node_modules/
+  taskman/
+  tests/
+  **/starter/
+  CONTRIBUTING.md
+
+not_in_nav: |
+  LICENSE-CODE.txt
+  LICENSE-CONTENT.txt
+
+theme:
+  name: material
+  language: fr
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: teal
+      accent: teal
+      toggle: { icon: material/weather-night, name: Mode sombre }
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: teal
+      accent: teal
+      toggle: { icon: material/weather-sunny, name: Mode clair }
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - navigation.footer
+    - toc.follow
+    - content.code.copy
+    - content.code.annotate
+    - search.highlight
+    - search.suggest
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - tables
+  - toc: { permalink: true }
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight: { anchor_linenums: true, line_spans: __span }
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.tabbed: { alternate_style: true }
+  - pymdownx.tasklist: { custom_checkbox: true }
+  - pymdownx.emoji
+
+plugins:
+  - same-dir
+  - search: { lang: fr }
+
+nav:
+  - Accueil: README.md
+  - Feuille de route: ROADMAP.md
+  - Couverture de la doc FastAPI: DOC-COVERAGE.md
+  - Licence: LICENSING.md
+  - Annexes:
+      - Typage Python: annexes/python-typing.md
+  - Modules:
+      - "00 · Setup & outillage": 00-setup/README.md
+      - "01 · Fondations HTTP & FastAPI":
+          - Théorie: 01-fondations-http-et-fastapi/THEORIE.md
+          - Exercices: 01-fondations-http-et-fastapi/exercices/README.md
+          - Solutions (choix de conception): 01-fondations-http-et-fastapi/solutions/README.md
+          - Explication pas à pas: 01-fondations-http-et-fastapi/PAS-A-PAS.md
+      - "02 · Modélisation & validation":
+          - Théorie: 02-modelisation-et-validation/THEORIE.md
+          - Exercices: 02-modelisation-et-validation/exercices/README.md
+          - Solutions (choix de conception): 02-modelisation-et-validation/solutions/README.md
+          - Explication pas à pas: 02-modelisation-et-validation/PAS-A-PAS.md
+      - "03 · Architecture d'un projet mature": 03-architecture-projet-mature/THEORIE.md
+      - "04 · Bases de données": 04-bases-de-donnees/THEORIE.md
+      - "05 · Erreurs, logs & middleware": 05-erreurs-logs-middleware/THEORIE.md
+      - "06 · Authentification & autorisation": 06-authentification-autorisation/THEORIE.md
+      - "07 · Tests": 07-tests/THEORIE.md
+      - "08 · Async avancé & performance": 08-async-avance-performance/THEORIE.md
+      - "09 · Observabilité & prod-readiness": 09-observabilite-prod-readiness/THEORIE.md
+      - "10 · Sécurité approfondie": 10-securite-approfondie/THEORIE.md
+      - "11 · Déploiement & DevOps": 11-deploiement-devops/THEORIE.md
+      - "12 · Architecture & scalabilité": 12-architecture-scalabilite/THEORIE.md
+  - Projets:
+      - Vue d'ensemble: projets/README.md

@@ -147,4 +147,10 @@ Détails, alternative `uv`, et outillage : [`00-setup/README.md`](00-setup/READM
 
 ## Licence
 
-MIT — voir [`LICENSE`](LICENSE). Utilise, forke, partage, enseigne.
+**Double licence** — voir [`LICENSING.md`](LICENSING.md) :
+
+- **Code source** (`taskman/`, `tests/`, `**/solutions/**`, config) → **MIT**
+  ([`LICENSE-CODE.txt`](LICENSE-CODE.txt)). Réutilise-le librement dans tes projets.
+- **Contenu pédagogique** (théorie, explications, corrigés, briefs) → **tous droits
+  réservés** ([`LICENSE-CONTENT.txt`](LICENSE-CONTENT.txt)). Formation payante : lecture et
+  apprentissage personnels autorisés, redistribution et revente interdites.

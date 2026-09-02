@@ -28,6 +28,9 @@ htmlcov/
 *.sqlite3
 *.db
 
+# ---- Site MkDocs généré ----
+site/
+
 # ---- Éditeurs / OS ----
 .idea/
 .vscode/*

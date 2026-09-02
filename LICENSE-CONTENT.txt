@@ -1,0 +1,72 @@
+COURSE CONTENT LICENSE — ALL RIGHTS RESERVED
+Licence du contenu pédagogique — Tous droits réservés
+
+Copyright (c) 2026 Patrick De Grâce. All rights reserved. Tous droits réservés.
+
+------------------------------------------------------------------------------
+SCOPE / PÉRIMÈTRE
+------------------------------------------------------------------------------
+This license applies to all instructional content in this repository: every
+Markdown file that is course material (THEORIE.md, PAS-A-PAS.md, README.md of
+modules, exercise statements, solution explanations, ROADMAP.md, DOC-COVERAGE.md,
+project briefs, diagrams, and the generated MkDocs site), hereafter "the
+Content".
+
+Cette licence couvre tout le contenu de formation du dépôt : théorie,
+explications pas-à-pas, énoncés d'exercices, corrigés commentés, feuille de
+route, briefs de projet, schémas, et le site généré.
+
+Source CODE files are licensed separately and permissively — see LICENSE-CODE.txt.
+Les fichiers de CODE source sont sous licence MIT — voir LICENSE-CODE.txt.
+
+------------------------------------------------------------------------------
+GRANT / DROITS ACCORDÉS
+------------------------------------------------------------------------------
+If you obtained a copy of the Content from the copyright holder or an
+authorized seller, you are granted a personal, non-exclusive, non-transferable
+right to:
+  - read, study and use the Content to learn, including offline;
+  - run, modify and reuse the accompanying source code under LICENSE-CODE.txt;
+  - build applications (including commercial ones) using the skills learned.
+
+Si vous avez obtenu le Contenu auprès du titulaire des droits ou d'un vendeur
+autorisé, vous disposez d'un droit personnel, non exclusif et non cessible de :
+  - lire, étudier et utiliser le Contenu pour apprendre, y compris hors ligne ;
+  - exécuter, modifier et réutiliser le code source associé (LICENSE-CODE.txt) ;
+  - créer des applications (y compris commerciales) avec les compétences acquises.
+
+------------------------------------------------------------------------------
+RESTRICTIONS / INTERDICTIONS
+------------------------------------------------------------------------------
+Without prior written permission from the copyright holder, you may NOT:
+  - redistribute, resell, sublicense, rent, lend or share the Content, in whole
+    or in part, in any form (including on a public repository, course platform,
+    file host, or via AI training datasets);
+  - publish the Content or derivative instructional works (translations,
+    reformatting, summaries, videos based on it) publicly or commercially;
+  - remove or alter copyright and license notices.
+
+Sans autorisation écrite préalable du titulaire des droits, il est INTERDIT de :
+  - redistribuer, revendre, sous-licencier, louer, prêter ou partager le
+    Contenu, en tout ou partie, sous quelque forme que ce soit (dépôt public,
+    plateforme de cours, hébergeur de fichiers, jeux d'entraînement d'IA, etc.) ;
+  - publier le Contenu ou des œuvres pédagogiques dérivées (traductions,
+    reformatages, résumés, vidéos qui s'en inspirent) de façon publique ou
+    commerciale ;
+  - retirer ou modifier les mentions de copyright et de licence.
+
+------------------------------------------------------------------------------
+NO WARRANTY / ABSENCE DE GARANTIE
+------------------------------------------------------------------------------
+THE CONTENT IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND. THE AUTHOR IS NOT
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY ARISING FROM THE USE OF THE
+CONTENT.
+
+LE CONTENU EST FOURNI « EN L'ÉTAT », SANS AUCUNE GARANTIE. L'AUTEUR NE SAURAIT
+ÊTRE TENU RESPONSABLE DE QUELQUE DOMMAGE QUE CE SOIT LIÉ À SON UTILISATION.
+
+------------------------------------------------------------------------------
+CONTACT
+------------------------------------------------------------------------------
+Permissions, licensing for teams/schools, partnerships:
+Patrick De Grâce — mb.patrickdegrace@gmail.com
