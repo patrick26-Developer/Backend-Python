@@ -19,7 +19,8 @@ Légende difficulté : 🟢 accessible · 🟡 demande de la rigueur · 🔴 exi
 | 03 · Architecture d'un projet mature | ✅ | ✅ | ✅ |
 | 04 · Bases de données (SQLAlchemy async + Alembic) | ✅ | ✅ | ✅ |
 | 05 · Erreurs, logs & middleware | ✅ | ✅ | ✅ |
-| 06 → 12 | 🚧 stubs | 🚧 | 🚧 |
+| 06 · Authentification & autorisation | ✅ | ✅ | ✅ |
+| 07 → 12 | 🚧 stubs | 🚧 | 🚧 |
 
 > La formation se construit module par module. Chaque module livré : théorie, exercices,
 > solutions complètes testées (`ruff` + `mypy --strict` + `pytest` au vert) et explication

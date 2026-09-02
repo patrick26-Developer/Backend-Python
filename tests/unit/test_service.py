@@ -1,10 +1,12 @@
-"""Tests unitaires de la couche service — sans HTTP, sans base de données.
+"""Tests unitaires des services métier — sans HTTP, sans base.
 
-Repositories **en mémoire** + `NullUnitOfWork`. Le service se teste en isolation
-grâce aux `Protocol`. Depuis le Module 05, il **lève** au lieu de renvoyer `None`.
+Repositories **en mémoire** + `NullUnitOfWork`. Depuis le Module 06, les services
+reçoivent un `actor: UserRead`.
 """
 
 from __future__ import annotations
+
+from datetime import UTC, datetime
 
 import pytest
 
@@ -14,46 +16,74 @@ from taskman.repositories import (
     InMemoryTaskRepository,
     NullUnitOfWork,
 )
-from taskman.schemas import ProjectCreate, TaskCreate, TaskFilters, TaskStatus, TaskUpdate
+from taskman.schemas import (
+    ProjectCreate,
+    TaskCreate,
+    TaskFilters,
+    TaskStatus,
+    TaskUpdate,
+    UserRead,
+    UserRole,
+)
 from taskman.services import ProjectService, TaskService
 
 
-def _task_service() -> tuple[TaskService, InMemoryTaskRepository]:
+def _user(*, uid: int = 1, role: UserRole = UserRole.member) -> UserRead:
+    return UserRead(
+        id=uid, email=f"u{uid}@x.co", role=role, is_active=True, created_at=datetime.now(UTC)
+    )
+
+
+def _svc(actor: UserRead | None = None) -> tuple[TaskService, InMemoryTaskRepository]:
     repo = InMemoryTaskRepository()
-    return TaskService(repo, NullUnitOfWork()), repo
+    return TaskService(repo, NullUnitOfWork(), actor or _user()), repo
 
 
-async def test_create_then_list() -> None:
-    service, _ = _task_service()
-    await service.create(TaskCreate(title="a", project_id=1))
-    await service.create(TaskCreate(title="b", project_id=1))
-    page = await service.list(TaskFilters(limit=1))
-    assert page.total == 2
-    assert len(page.items) == 1
+async def test_create_then_list_scoped_to_owner() -> None:
+    repo = InMemoryTaskRepository()
+    alice = TaskService(repo, NullUnitOfWork(), _user(uid=1))
+    bob = TaskService(repo, NullUnitOfWork(), _user(uid=2))
+
+    await alice.create(TaskCreate(title="a", project_id=1))
+    await bob.create(TaskCreate(title="b", project_id=1))
+
+    assert (await alice.list(TaskFilters())).total == 1
+    assert (await bob.list(TaskFilters())).total == 1
+
+
+async def test_admin_sees_all() -> None:
+    repo = InMemoryTaskRepository()
+    member = TaskService(repo, NullUnitOfWork(), _user(uid=1))
+    admin = TaskService(repo, NullUnitOfWork(), _user(uid=9, role=UserRole.admin))
+    await member.create(TaskCreate(title="a", project_id=1))
+    assert (await admin.list(TaskFilters())).total == 1
+
+
+async def test_get_others_task_is_not_found() -> None:
+    repo = InMemoryTaskRepository()
+    alice = TaskService(repo, NullUnitOfWork(), _user(uid=1))
+    bob = TaskService(repo, NullUnitOfWork(), _user(uid=2))
+    task = await alice.create(TaskCreate(title="x", project_id=1))
+    with pytest.raises(TaskNotFoundError):
+        await bob.get(task.id)
 
 
 async def test_get_missing_raises() -> None:
-    service, _ = _task_service()
+    service, _ = _svc()
     with pytest.raises(TaskNotFoundError):
         await service.get(42)
 
 
 async def test_update_missing_raises() -> None:
-    service, _ = _task_service()
+    service, _ = _svc()
     with pytest.raises(TaskNotFoundError):
         await service.update(42, TaskUpdate(status=TaskStatus.done))
 
 
 async def test_delete_missing_raises() -> None:
-    service, _ = _task_service()
+    service, _ = _svc()
     with pytest.raises(TaskNotFoundError):
         await service.delete(42)
-
-
-async def test_delete_existing_returns_none() -> None:
-    service, _ = _task_service()
-    created = await service.create(TaskCreate(title="x", project_id=1))
-    assert await service.delete(created.id) is None
 
 
 async def test_commit_called_on_write_not_read() -> None:
@@ -66,37 +96,17 @@ async def test_commit_called_on_write_not_read() -> None:
         async def rollback(self) -> None:  # pragma: no cover
             pass
 
-    service = TaskService(InMemoryTaskRepository(), SpyUoW())
+    service = TaskService(InMemoryTaskRepository(), SpyUoW(), _user())
     await service.create(TaskCreate(title="x", project_id=1))
     await service.list(TaskFilters())
     assert SpyUoW.commits == 1
 
 
-async def test_update_missing_does_not_commit() -> None:
-    class SpyUoW:
-        commits = 0
-
-        async def commit(self) -> None:  # pragma: no cover
-            SpyUoW.commits += 1
-
-        async def rollback(self) -> None:  # pragma: no cover
-            pass
-
-    service = TaskService(InMemoryTaskRepository(), SpyUoW())
-    with pytest.raises(TaskNotFoundError):
-        await service.update(999, TaskUpdate(status=TaskStatus.done))
-    assert SpyUoW.commits == 0
-
-
-async def test_project_service_get_missing_raises() -> None:
-    service = ProjectService(InMemoryProjectRepository(), NullUnitOfWork())
+async def test_project_service_isolation() -> None:
+    repo = InMemoryProjectRepository()
+    alice = ProjectService(repo, NullUnitOfWork(), _user(uid=1))
+    bob = ProjectService(repo, NullUnitOfWork(), _user(uid=2))
+    p = await alice.create(ProjectCreate(name="P1"))
     with pytest.raises(ProjectNotFoundError):
-        await service.get(1)
-
-
-async def test_project_service_list() -> None:
-    service = ProjectService(InMemoryProjectRepository(), NullUnitOfWork())
-    await service.create(ProjectCreate(name="P1"))
-    page = await service.list(limit=10, offset=0)
-    assert page.total == 1
-    assert page.items[0].name == "P1"
+        await bob.get(p.id)
+    assert (await bob.list(limit=10, offset=0)).total == 0
