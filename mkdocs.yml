@@ -107,7 +107,11 @@ nav:
           - Exercices: 04-bases-de-donnees/exercices/README.md
           - Solutions (choix de conception): 04-bases-de-donnees/solutions/README.md
           - Explication pas à pas: 04-bases-de-donnees/PAS-A-PAS.md
-      - "05 · Erreurs, logs & middleware": 05-erreurs-logs-middleware/THEORIE.md
+      - "05 · Erreurs, logs & middleware":
+          - Théorie: 05-erreurs-logs-middleware/THEORIE.md
+          - Exercices: 05-erreurs-logs-middleware/exercices/README.md
+          - Solutions (choix de conception): 05-erreurs-logs-middleware/solutions/README.md
+          - Explication pas à pas: 05-erreurs-logs-middleware/PAS-A-PAS.md
       - "06 · Authentification & autorisation": 06-authentification-autorisation/THEORIE.md
       - "07 · Tests": 07-tests/THEORIE.md
       - "08 · Async avancé & performance": 08-async-avance-performance/THEORIE.md

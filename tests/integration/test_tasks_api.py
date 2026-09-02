@@ -6,7 +6,6 @@ from datetime import UTC, datetime, timedelta
 
 import pytest
 from httpx import AsyncClient
-from sqlalchemy.exc import IntegrityError
 
 FUTURE = (datetime.now(UTC) + timedelta(days=3)).isoformat()
 PAST = "2000-01-01T00:00:00Z"
@@ -50,11 +49,14 @@ async def test_create_returns_location_and_defaults(client: AsyncClient) -> None
     assert body["is_overdue"] is False
 
 
-async def test_create_unknown_project_fails(client: AsyncClient) -> None:
-    # FK activée (PRAGMA foreign_keys=ON) -> l'insert viole la contrainte.
-    # Ici l'exception remonte brute ; le Module 05 la transformera en 409 propre.
-    with pytest.raises(IntegrityError):
-        await client.post("/tasks", json={"title": "x", "project_id": 999})
+async def test_create_unknown_project_gives_clean_404(client: AsyncClient) -> None:
+    # L'IntegrityError (FK) est traduite en ProjectNotFoundError par le repository,
+    # puis en 404 Problem Details par le handler central.
+    resp = await client.post("/tasks", json={"title": "x", "project_id": 999})
+    assert resp.status_code == 404
+    body = resp.json()
+    assert body["code"] == "project_not_found"
+    assert resp.headers["content-type"] == "application/problem+json"
 
 
 @pytest.mark.parametrize(
@@ -93,6 +95,35 @@ async def test_patch_title_null_is_422(client: AsyncClient) -> None:
 
 async def test_patch_missing_is_404(client: AsyncClient) -> None:
     assert (await client.patch("/tasks/999", json={"status": "done"})).status_code == 404
+
+
+# --- format d'erreur unifié + request-id ----------------------
+async def test_error_format_is_problem_details(client: AsyncClient) -> None:
+    resp = await client.get("/tasks/999")
+    assert resp.status_code == 404
+    assert resp.headers["content-type"] == "application/problem+json"
+    body = resp.json()
+    assert set(body) >= {"type", "title", "status", "detail", "code", "instance", "request_id"}
+    assert body["code"] == "task_not_found"
+    assert body["instance"] == "/tasks/999"
+
+
+async def test_validation_error_uses_same_format(client: AsyncClient) -> None:
+    pid = await _project(client)
+    resp = await client.post("/tasks", json={"title": "", "project_id": pid})
+    assert resp.status_code == 422
+    body = resp.json()
+    assert body["code"] == "validation_error"
+    assert isinstance(body["errors"], list)
+
+
+async def test_request_id_echoed_and_respected(client: AsyncClient) -> None:
+    # généré si absent
+    r1 = await client.get("/tasks")
+    assert r1.headers.get("x-request-id")
+    # respecté si fourni
+    r2 = await client.get("/tasks", headers={"X-Request-ID": "abc-123"})
+    assert r2.headers["x-request-id"] == "abc-123"
 
 
 # --- liste / filtres ------------------------------------------
