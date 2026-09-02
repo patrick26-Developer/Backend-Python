@@ -32,4 +32,4 @@ HTTP Basic Auth · OAuth2 scopes (rappel) · Reference : `Security Tools`, `Midd
 
 ## Definition of Done
 
-Voir [`../ROADMAP.md`](../ROADMAP.md#module-10--sécurité-approfondie-).
+Voir [`../ROADMAP.md`](../ROADMAP.md).

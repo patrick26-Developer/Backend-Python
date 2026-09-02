@@ -30,8 +30,8 @@ Reference : `Test Client - TestClient`.
 - Tests d'intégration de chaque endpoint (passant + erreurs).
 - Un cas développé en TDD strict.
 - Passer la couverture de `taskman` au-dessus de 85 %.
-- **Mini-projet `pollup`** développé entièrement en TDD (voir [`../projets/`](../projets/)).
+- **Mini-projet `pollup`** développé entièrement en TDD (voir [`../projets/`](../projets/README.md)).
 
 ## Definition of Done
 
-Voir [`../ROADMAP.md`](../ROADMAP.md#module-07--tests-).
+Voir [`../ROADMAP.md`](../ROADMAP.md).

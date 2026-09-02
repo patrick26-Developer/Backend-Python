@@ -28,8 +28,8 @@ SQL (Relational) Databases · JSON Compatible Encoder (`jsonable_encoder`) · De
 - Brancher `SqlAlchemyTaskRepository` derrière le `Protocol` du Module 03.
 - Requête liste filtrée + paginée **sans N+1** (`selectinload`), vérifiée via echo SQL.
 - Rollback automatique de session en cas d'exception.
-- **Mini-projet `shorturl`** (voir [`../projets/`](../projets/)).
+- **Mini-projet `shorturl`** (voir [`../projets/`](../projets/README.md)).
 
 ## Definition of Done
 
-Voir [`../ROADMAP.md`](../ROADMAP.md#module-04--bases-de-données--sqlalchemy-20-async--alembic-).
+Voir [`../ROADMAP.md`](../ROADMAP.md).

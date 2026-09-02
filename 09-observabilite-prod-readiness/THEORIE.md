@@ -27,8 +27,8 @@ Configure Swagger UI (annexe) · Custom Docs UI Static Assets (annexe) · Refere
 - `/metrics` + latence p50/p95/p99 par route.
 - `/health` et `/ready` distincts ; `/ready` → 503 si DB down.
 - Trace bout-en-bout d'une requête, corrélée au `request-id`.
-- **Mini-projet `statuspage`** (voir [`../projets/`](../projets/)).
+- **Mini-projet `statuspage`** (voir [`../projets/`](../projets/README.md)).
 
 ## Definition of Done
 
-Voir [`../ROADMAP.md`](../ROADMAP.md#module-09--observabilité--prod-readiness-).
+Voir [`../ROADMAP.md`](../ROADMAP.md).

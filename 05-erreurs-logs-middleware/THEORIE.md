@@ -35,4 +35,4 @@ class (annexe) · Reference : `Exceptions - HTTPException and WebSocketException
 
 ## Definition of Done
 
-Voir [`../ROADMAP.md`](../ROADMAP.md#module-05--erreurs-logs--middleware-).
+Voir [`../ROADMAP.md`](../ROADMAP.md).

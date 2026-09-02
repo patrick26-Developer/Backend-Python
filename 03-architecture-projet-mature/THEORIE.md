@@ -35,4 +35,4 @@ Reference : `APIRouter class`, `Dependencies - Depends() and Security()`, `FastA
 
 ## Definition of Done
 
-Voir [`../ROADMAP.md`](../ROADMAP.md#module-03--architecture-dun-projet-mature-).
+Voir [`../ROADMAP.md`](../ROADMAP.md).

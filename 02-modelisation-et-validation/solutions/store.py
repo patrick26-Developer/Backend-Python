@@ -9,7 +9,7 @@ from __future__ import annotations
 from datetime import UTC, datetime
 from operator import attrgetter
 
-from taskman.models import (
+from .models import (
     SortKey,
     TaskCreate,
     TaskFilters,

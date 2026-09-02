@@ -34,4 +34,4 @@ OpenAPI (annexe) · Including WSGI - Flask/Django (annexe) · GraphQL (annexe) �
 
 ## Definition of Done
 
-Voir [`../ROADMAP.md`](../ROADMAP.md#module-12--architecture--scalabilité-).
+Voir [`../ROADMAP.md`](../ROADMAP.md).

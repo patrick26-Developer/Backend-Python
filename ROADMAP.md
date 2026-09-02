@@ -9,6 +9,19 @@ d'auto-évaluation : tant qu'une case n'est pas cochée *honnêtement*, le modul
 
 Légende difficulté : 🟢 accessible · 🟡 demande de la rigueur · 🔴 exigeant.
 
+### État de rédaction de la formation
+
+| Module | Théorie | Exercices | Solutions + PAS-A-PAS |
+|---|:-:|:-:|:-:|
+| 00 · Setup | ✅ | ✅ | — |
+| 01 · Fondations HTTP & FastAPI | ✅ | ✅ | ✅ |
+| 02 · Modélisation & validation | ✅ | ✅ | ✅ |
+| 03 → 12 | 🚧 stubs | 🚧 | 🚧 |
+
+> La formation se construit module par module. Chaque module livré : théorie, exercices,
+> solutions complètes testées (`ruff` + `mypy --strict` + `pytest` au vert) et explication
+> ligne par ligne.
+
 ---
 
 ## Module 00 — Setup & outillage professionnel 🟢

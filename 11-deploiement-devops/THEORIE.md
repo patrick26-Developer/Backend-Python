@@ -32,4 +32,4 @@ Containers - Docker · Behind a Proxy · Generating SDKs (annexe) · Reference :
 
 ## Definition of Done
 
-Voir [`../ROADMAP.md`](../ROADMAP.md#module-11--déploiement--devops-).
+Voir [`../ROADMAP.md`](../ROADMAP.md).

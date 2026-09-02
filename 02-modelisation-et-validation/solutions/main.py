@@ -11,13 +11,12 @@ from typing import Annotated
 
 from fastapi import Body, FastAPI, HTTPException, Path, Query, Response, status
 
-from taskman import __version__
-from taskman.models import TaskCreate, TaskFilters, TaskPage, TaskRead, TaskUpdate
-from taskman.store import InMemoryTaskStore
+from .models import TaskCreate, TaskFilters, TaskPage, TaskRead, TaskUpdate
+from .store import InMemoryTaskStore
 
 app = FastAPI(
     title="taskman",
-    version=__version__,
+    version="0.2.0",
     summary="API de gestion de tâches — projet fil rouge du cursus Backend-Python",
     # True (défaut) : OpenAPI expose des schémas -Input/-Output distincts,
     # ce qui aide les générateurs de SDK. On garde le défaut.
@@ -52,7 +51,7 @@ _CREATE_EXAMPLES = {
 
 @app.get("/", tags=["meta"])
 def root() -> dict[str, str]:
-    return {"name": "taskman", "version": __version__, "docs": "/docs"}
+    return {"name": "taskman", "version": "0.2.0", "docs": "/docs"}
 
 
 @app.get("/health", tags=["meta"])
