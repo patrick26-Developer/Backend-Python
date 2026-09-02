@@ -1,87 +1,71 @@
-"""Tests unitaires de la couche service — sans HTTP, avec un faux repository.
+"""Tests unitaires de la couche service — sans HTTP, sans base de données.
 
-Montre que le service se teste **sans FastAPI ni base de données** : il suffit de
-lui passer n'importe quel objet respectant le `Protocol` TaskRepository.
+On utilise les repositories **en mémoire** + `NullUnitOfWork` : le service se teste
+en isolation totale grâce aux `Protocol`.
 """
 
 from __future__ import annotations
 
-from datetime import UTC, datetime
-
-from taskman.schemas import TaskCreate, TaskFilters, TaskRead, TaskStatus, TaskUpdate
-from taskman.services import TaskService
-
-
-class FakeTaskRepository:
-    """Faux minimal : suit les appels, se comporte de façon prévisible."""
-
-    def __init__(self) -> None:
-        self.calls: list[str] = []
-        self._store: dict[int, TaskRead] = {}
-        self._seq = 0
-
-    def create(self, data: TaskCreate) -> TaskRead:
-        self.calls.append("create")
-        self._seq += 1
-        now = datetime.now(UTC)
-        task = TaskRead(
-            id=self._seq,
-            status=TaskStatus.todo,
-            created_at=now,
-            updated_at=now,
-            **data.model_dump(),
-        )
-        self._store[task.id] = task
-        return task
-
-    def get(self, task_id: int) -> TaskRead | None:
-        self.calls.append("get")
-        return self._store.get(task_id)
-
-    def list(self, filters: TaskFilters) -> tuple[list[TaskRead], int]:
-        self.calls.append("list")
-        rows = list(self._store.values())
-        return rows[filters.offset : filters.offset + filters.limit], len(rows)
-
-    def update(self, task_id: int, changes: TaskUpdate) -> TaskRead | None:
-        self.calls.append("update")
-        return self._store.get(task_id)
-
-    def delete(self, task_id: int) -> bool:
-        self.calls.append("delete")
-        return self._store.pop(task_id, None) is not None
+from taskman.repositories import (
+    InMemoryProjectRepository,
+    InMemoryTaskRepository,
+    NullUnitOfWork,
+)
+from taskman.schemas import ProjectCreate, TaskCreate, TaskFilters, TaskStatus, TaskUpdate
+from taskman.services import ProjectService, TaskService
 
 
-def _service() -> tuple[TaskService, FakeTaskRepository]:
-    fake = FakeTaskRepository()
-    return TaskService(fake), fake
+def _task_service() -> tuple[TaskService, InMemoryTaskRepository]:
+    repo = InMemoryTaskRepository()
+    return TaskService(repo, NullUnitOfWork()), repo
 
 
-def test_create_delegates_to_repository() -> None:
-    service, fake = _service()
-    task = service.create(TaskCreate(title="x", project_id=1))
-    assert task.id == 1
-    assert fake.calls == ["create"]
-
-
-def test_list_wraps_result_in_page() -> None:
-    service, _ = _service()
-    service.create(TaskCreate(title="a", project_id=1))
-    service.create(TaskCreate(title="b", project_id=1))
-    page = service.list(TaskFilters(limit=1))
+async def test_create_then_list() -> None:
+    service, _ = _task_service()
+    await service.create(TaskCreate(title="a", project_id=1))
+    await service.create(TaskCreate(title="b", project_id=1))
+    page = await service.list(TaskFilters(limit=1))
     assert page.total == 2
     assert page.limit == 1
     assert len(page.items) == 1
 
 
-def test_get_missing_returns_none() -> None:
-    service, fake = _service()
-    assert service.get(42) is None
-    assert fake.calls == ["get"]
+async def test_get_missing_returns_none() -> None:
+    service, _ = _task_service()
+    assert await service.get(42) is None
 
 
-def test_delete_reports_boolean() -> None:
-    service, _ = _service()
-    created = service.create(TaskCreate(title="x", project_id=1))
-    assert service.delete(created.id) is True
-    assert service.delete(created.id) is False
+async def test_update_missing_returns_none() -> None:
+    service, _ = _task_service()
+    assert await service.update(42, TaskUpdate(status=TaskStatus.done)) is None
+
+
+async def test_delete_reports_boolean() -> None:
+    service, _ = _task_service()
+    created = await service.create(TaskCreate(title="x", project_id=1))
+    assert await service.delete(created.id) is True
+    assert await service.delete(created.id) is False
+
+
+async def test_commit_called_on_write() -> None:
+    class SpyUoW:
+        commits = 0
+
+        async def commit(self) -> None:
+            SpyUoW.commits += 1
+
+        async def rollback(self) -> None:  # pragma: no cover
+            pass
+
+    service = TaskService(InMemoryTaskRepository(), SpyUoW())
+    await service.create(TaskCreate(title="x", project_id=1))
+    await service.list(TaskFilters())  # lecture -> pas de commit
+    assert SpyUoW.commits == 1
+
+
+async def test_project_service_wraps_page() -> None:
+    service = ProjectService(InMemoryProjectRepository(), NullUnitOfWork())
+    await service.create(ProjectCreate(name="P1"))
+    page = await service.list(limit=10, offset=0)
+    assert page.total == 1
+    assert page.items[0].name == "P1"

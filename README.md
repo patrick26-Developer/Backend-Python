@@ -118,6 +118,7 @@ python -m pip install -U pip
 pip install -e ".[dev]"
 
 Copy-Item .env.example .env
+alembic upgrade head          # crée la base (SQLite par défaut) — Module 04+
 fastapi dev taskman/main.py
 # -> http://127.0.0.1:8000/docs
 ```

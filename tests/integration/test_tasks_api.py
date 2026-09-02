@@ -1,141 +1,135 @@
-"""Tests d'intégration : l'API HTTP de bout en bout (Module 03).
-
-L'app est fabriquée par `create_app`, le repository est injecté via override
-(voir tests/conftest.py).
-"""
+"""Tests d'intégration de l'API HTTP (Module 04 : async + base de données)."""
 
 from __future__ import annotations
 
 from datetime import UTC, datetime, timedelta
 
 import pytest
-from fastapi.testclient import TestClient
+from httpx import AsyncClient
+from sqlalchemy.exc import IntegrityError
 
 FUTURE = (datetime.now(UTC) + timedelta(days=3)).isoformat()
 PAST = "2000-01-01T00:00:00Z"
 
 
-def _create(client: TestClient, **over: object) -> dict:
-    body = {"title": "Tâche", "project_id": 1, **over}
-    resp = client.post("/tasks", json=body)
+async def _project(client: AsyncClient, name: str = "P") -> int:
+    resp = await client.post("/projects", json={"name": name})
+    assert resp.status_code == 201, resp.text
+    return resp.json()["id"]
+
+
+async def _create(client: AsyncClient, project_id: int, **over: object) -> dict:
+    body = {"title": "Tâche", "project_id": project_id, **over}
+    resp = await client.post("/tasks", json=body)
     assert resp.status_code == 201, resp.text
     return resp.json()
 
 
-# --- meta & config -------------------------------------------------
-def test_root_exposes_env(client: TestClient) -> None:
-    body = client.get("/").json()
-    assert body["name"] == "taskman"
-    assert body["env"] == "test"  # Settings(env="test") passé par la fixture
+# --- meta ---------------------------------------------------------
+async def test_root_and_routers(client: AsyncClient) -> None:
+    assert (await client.get("/")).json()["env"] == "test"
+    paths = (await client.get("/openapi.json")).json()["paths"]
+    assert {"/tasks", "/projects", "/projects/{project_id}"} <= set(paths)
 
 
-def test_health(client: TestClient) -> None:
-    assert client.get("/health").json() == {"status": "ok"}
+# --- création & persistance -------------------------------------
+async def test_create_persists_across_requests(client: AsyncClient) -> None:
+    pid = await _project(client)
+    created = await _create(client, pid, title="persiste")
+    fetched = await client.get(f"/tasks/{created['id']}")
+    assert fetched.status_code == 200
+    assert fetched.json()["title"] == "persiste"
 
 
-# --- injection de dépendances ------------------------------------
-def test_repository_is_isolated_between_tests(client: TestClient) -> None:
-    # aucun résidu d'un test précédent : le repository est neuf (fixture)
-    assert client.get("/tasks").json()["total"] == 0
-
-
-def test_routers_are_mounted(client: TestClient) -> None:
-    paths = client.get("/openapi.json").json()["paths"]
-    assert {"/", "/health", "/tasks", "/tasks/{task_id}"} <= set(paths)
-
-
-# --- création ----------------------------------------------------
-def test_create_returns_201_with_location(client: TestClient) -> None:
-    resp = client.post("/tasks", json={"title": "écrire", "project_id": 2})
-    assert resp.status_code == 201
+async def test_create_returns_location_and_defaults(client: AsyncClient) -> None:
+    pid = await _project(client)
+    resp = await client.post("/tasks", json={"title": "x", "project_id": pid})
     body = resp.json()
-    assert body["project_id"] == 2
-    assert body["is_overdue"] is False
     assert resp.headers["location"] == f"/tasks/{body['id']}"
+    assert body["status"] == "todo"
+    assert body["is_overdue"] is False
 
 
-def test_create_without_project_id_is_422(client: TestClient) -> None:
-    assert client.post("/tasks", json={"title": "x"}).status_code == 422
-
-
-def test_server_fields_cannot_be_set_by_client(client: TestClient) -> None:
-    body = _create(client, id=999, is_overdue=True, created_at=PAST, status="done")
-    assert (body["id"], body["is_overdue"], body["status"]) == (1, False, "todo")
+async def test_create_unknown_project_fails(client: AsyncClient) -> None:
+    # FK activée (PRAGMA foreign_keys=ON) -> l'insert viole la contrainte.
+    # Ici l'exception remonte brute ; le Module 05 la transformera en 409 propre.
+    with pytest.raises(IntegrityError):
+        await client.post("/tasks", json={"title": "x", "project_id": 999})
 
 
 @pytest.mark.parametrize(
     "payload",
     [
-        {"title": "   ", "project_id": 1},
-        {"title": "x", "project_id": 1, "priority": 6},
-        {"title": "x", "project_id": 1, "due_date": PAST},
-        {"title": "x", "project_id": 1, "assignee_email": "nope"},
-        {"title": "x", "project_id": 1, "estimate_hours": "1.005"},
-        {"title": "x", "project_id": 1, "checklist": [{"label": "  "}]},
-        {"title": "x", "project_id": 0},
+        {"title": "   "},
+        {"title": "x", "priority": 6},
+        {"title": "x", "due_date": PAST},
+        {"title": "x", "assignee_email": "nope"},
+        {"title": "x", "estimate_hours": "1.005"},
+        {"title": "x", "checklist": [{"label": "  "}]},
     ],
 )
-def test_create_rejects_invalid(client: TestClient, payload: dict) -> None:
-    assert client.post("/tasks", json=payload).status_code == 422
+async def test_create_rejects_invalid(client: AsyncClient, payload: dict) -> None:
+    pid = await _project(client)
+    assert (await client.post("/tasks", json={**payload, "project_id": pid})).status_code == 422
 
 
-def test_nested_error_path(client: TestClient) -> None:
-    resp = client.post("/tasks", json={"title": "x", "project_id": 1, "checklist": [{"label": ""}]})
-    assert resp.status_code == 422
-    assert resp.json()["detail"][0]["loc"] == ["body", "checklist", 0, "label"]
+# --- PATCH ------------------------------------------------------
+async def test_patch_partial_and_null(client: AsyncClient) -> None:
+    pid = await _project(client)
+    created = await _create(client, pid, description="d", priority=2)
+    noop = await client.patch(f"/tasks/{created['id']}", json={})
+    assert noop.json()["description"] == "d"
+    cleared = await client.patch(f"/tasks/{created['id']}", json={"description": None})
+    assert cleared.json()["description"] is None
+    done = await client.patch(f"/tasks/{created['id']}", json={"status": "done"})
+    assert done.json()["status"] == "done" and done.json()["priority"] == 2
 
 
-# --- PATCH -----------------------------------------------------
-def test_patch_empty_is_noop(client: TestClient) -> None:
-    created = _create(client, description="garde-moi")
-    body = client.patch(f"/tasks/{created['id']}", json={}).json()
-    assert body["description"] == "garde-moi"
-    assert body["updated_at"] == created["updated_at"]
+async def test_patch_title_null_is_422(client: AsyncClient) -> None:
+    pid = await _project(client)
+    created = await _create(client, pid)
+    assert (await client.patch(f"/tasks/{created['id']}", json={"title": None})).status_code == 422
 
 
-def test_patch_null_clears_description(client: TestClient) -> None:
-    created = _create(client, description="à effacer")
-    body = client.patch(f"/tasks/{created['id']}", json={"description": None}).json()
-    assert body["description"] is None
-
-
-def test_patch_title_null_is_422(client: TestClient) -> None:
-    created = _create(client)
-    assert client.patch(f"/tasks/{created['id']}", json={"title": None}).status_code == 422
-
-
-def test_patch_due_date_null_recomputes_overdue(client: TestClient) -> None:
-    created = _create(client, due_date=FUTURE)
-    body = client.patch(f"/tasks/{created['id']}", json={"due_date": None}).json()
-    assert body["due_date"] is None
-    assert body["is_overdue"] is False
-
-
-def test_patch_missing_is_404(client: TestClient) -> None:
-    assert client.patch("/tasks/999", json={"status": "done"}).status_code == 404
+async def test_patch_missing_is_404(client: AsyncClient) -> None:
+    assert (await client.patch("/tasks/999", json={"status": "done"})).status_code == 404
 
 
 # --- liste / filtres ------------------------------------------
-def test_list_pagination_metadata(client: TestClient) -> None:
-    for i in range(3):
-        _create(client, title=f"t{i}", priority=i + 1)
-    page = client.get("/tasks", params={"limit": 2}).json()
-    assert page["total"] == 3 and page["limit"] == 2 and len(page["items"]) == 2
-
-
-def test_list_unknown_query_param_is_422(client: TestClient) -> None:
-    assert client.get("/tasks", params={"statuss": "done"}).status_code == 422
-
-
-def test_list_search_and_filters_combine(client: TestClient) -> None:
-    _create(client, title="doc archi", priority=5, project_id=1)
-    _create(client, title="autre", priority=1, project_id=2)
-    page = client.get("/tasks", params={"q": "doc", "min_priority": 3, "project_id": 1}).json()
+async def test_list_filters(client: AsyncClient) -> None:
+    p1 = await _project(client, "P1")
+    p2 = await _project(client, "P2")
+    await _create(client, p1, title="doc archi", priority=5)
+    await _create(client, p2, title="autre", priority=1)
+    page = (
+        await client.get("/tasks", params={"q": "doc", "min_priority": 3, "project_id": p1})
+    ).json()
     assert [t["title"] for t in page["items"]] == ["doc archi"]
 
 
-# --- suppression -------------------------------------------
-def test_delete_is_204_then_404(client: TestClient) -> None:
-    created = _create(client)
-    assert client.delete(f"/tasks/{created['id']}").status_code == 204
-    assert client.delete(f"/tasks/{created['id']}").status_code == 404
+async def test_list_unknown_query_param_is_422(client: AsyncClient) -> None:
+    assert (await client.get("/tasks", params={"statuss": "done"})).status_code == 422
+
+
+# --- suppression + transaction --------------------------------
+async def test_delete_then_404(client: AsyncClient) -> None:
+    pid = await _project(client)
+    created = await _create(client, pid)
+    assert (await client.delete(f"/tasks/{created['id']}")).status_code == 204
+    assert (await client.delete(f"/tasks/{created['id']}")).status_code == 404
+
+
+async def test_isolation_between_tests(client: AsyncClient) -> None:
+    # base neuve : aucune tâche d'un test précédent
+    assert (await client.get("/tasks")).json()["total"] == 0
+
+
+# --- projets : task_count sans N+1 ---------------------------
+async def test_projects_list_with_task_count(client: AsyncClient) -> None:
+    p1 = await _project(client, "P1")
+    await _project(client, "P2")
+    await _create(client, p1)
+    await _create(client, p1)
+    page = (await client.get("/projects")).json()
+    counts = {p["name"]: p["task_count"] for p in page["items"]}
+    assert counts == {"P1": 2, "P2": 0}

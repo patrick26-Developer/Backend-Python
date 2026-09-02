@@ -18,8 +18,10 @@ exclude_docs: |
   .pytest_cache/
   site/
   node_modules/
-  taskman/
   tests/
+  **/taskman/
+  **/alembic/
+  **/solution/
   **/starter/
   CONTRIBUTING.md
 
@@ -100,7 +102,11 @@ nav:
           - Exercices: 03-architecture-projet-mature/exercices/README.md
           - Solutions (choix de conception): 03-architecture-projet-mature/solutions/README.md
           - Explication pas à pas: 03-architecture-projet-mature/PAS-A-PAS.md
-      - "04 · Bases de données": 04-bases-de-donnees/THEORIE.md
+      - "04 · Bases de données":
+          - Théorie: 04-bases-de-donnees/THEORIE.md
+          - Exercices: 04-bases-de-donnees/exercices/README.md
+          - Solutions (choix de conception): 04-bases-de-donnees/solutions/README.md
+          - Explication pas à pas: 04-bases-de-donnees/PAS-A-PAS.md
       - "05 · Erreurs, logs & middleware": 05-erreurs-logs-middleware/THEORIE.md
       - "06 · Authentification & autorisation": 06-authentification-autorisation/THEORIE.md
       - "07 · Tests": 07-tests/THEORIE.md

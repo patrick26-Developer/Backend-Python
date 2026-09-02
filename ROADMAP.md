@@ -17,7 +17,8 @@ Légende difficulté : 🟢 accessible · 🟡 demande de la rigueur · 🔴 exi
 | 01 · Fondations HTTP & FastAPI | ✅ | ✅ | ✅ |
 | 02 · Modélisation & validation | ✅ | ✅ | ✅ |
 | 03 · Architecture d'un projet mature | ✅ | ✅ | ✅ |
-| 04 → 12 | 🚧 stubs | 🚧 | 🚧 |
+| 04 · Bases de données (SQLAlchemy async + Alembic) | ✅ | ✅ | ✅ |
+| 05 → 12 | 🚧 stubs | 🚧 | 🚧 |
 
 > La formation se construit module par module. Chaque module livré : théorie, exercices,
 > solutions complètes testées (`ruff` + `mypy --strict` + `pytest` au vert) et explication
