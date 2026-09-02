@@ -77,6 +77,7 @@ plugins:
 
 nav:
   - Accueil: README.md
+  - Mode d'emploi: GUIDE.md
   - Feuille de route: ROADMAP.md
   - Couverture de la doc FastAPI: DOC-COVERAGE.md
   - Licence: LICENSING.md
@@ -94,7 +95,11 @@ nav:
           - Exercices: 02-modelisation-et-validation/exercices/README.md
           - Solutions (choix de conception): 02-modelisation-et-validation/solutions/README.md
           - Explication pas à pas: 02-modelisation-et-validation/PAS-A-PAS.md
-      - "03 · Architecture d'un projet mature": 03-architecture-projet-mature/THEORIE.md
+      - "03 · Architecture d'un projet mature":
+          - Théorie: 03-architecture-projet-mature/THEORIE.md
+          - Exercices: 03-architecture-projet-mature/exercices/README.md
+          - Solutions (choix de conception): 03-architecture-projet-mature/solutions/README.md
+          - Explication pas à pas: 03-architecture-projet-mature/PAS-A-PAS.md
       - "04 · Bases de données": 04-bases-de-donnees/THEORIE.md
       - "05 · Erreurs, logs & middleware": 05-erreurs-logs-middleware/THEORIE.md
       - "06 · Authentification & autorisation": 06-authentification-autorisation/THEORIE.md

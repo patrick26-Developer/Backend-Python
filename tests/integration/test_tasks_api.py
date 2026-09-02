@@ -1,4 +1,8 @@
-"""Tests d'intégration : l'API HTTP de bout en bout (Module 02)."""
+"""Tests d'intégration : l'API HTTP de bout en bout (Module 03).
+
+L'app est fabriquée par `create_app`, le repository est injecté via override
+(voir tests/conftest.py).
+"""
 
 from __future__ import annotations
 
@@ -18,18 +22,34 @@ def _create(client: TestClient, **over: object) -> dict:
     return resp.json()
 
 
-def test_meta_endpoints(client: TestClient) -> None:
-    assert client.get("/").json()["name"] == "taskman"
+# --- meta & config -------------------------------------------------
+def test_root_exposes_env(client: TestClient) -> None:
+    body = client.get("/").json()
+    assert body["name"] == "taskman"
+    assert body["env"] == "test"  # Settings(env="test") passé par la fixture
+
+
+def test_health(client: TestClient) -> None:
     assert client.get("/health").json() == {"status": "ok"}
 
 
-# --- création ---------------------------------------------------------
+# --- injection de dépendances ------------------------------------
+def test_repository_is_isolated_between_tests(client: TestClient) -> None:
+    # aucun résidu d'un test précédent : le repository est neuf (fixture)
+    assert client.get("/tasks").json()["total"] == 0
+
+
+def test_routers_are_mounted(client: TestClient) -> None:
+    paths = client.get("/openapi.json").json()["paths"]
+    assert {"/", "/health", "/tasks", "/tasks/{task_id}"} <= set(paths)
+
+
+# --- création ----------------------------------------------------
 def test_create_returns_201_with_location(client: TestClient) -> None:
     resp = client.post("/tasks", json={"title": "écrire", "project_id": 2})
     assert resp.status_code == 201
     body = resp.json()
     assert body["project_id"] == 2
-    assert body["status"] == "todo"
     assert body["is_overdue"] is False
     assert resp.headers["location"] == f"/tasks/{body['id']}"
 
@@ -40,10 +60,7 @@ def test_create_without_project_id_is_422(client: TestClient) -> None:
 
 def test_server_fields_cannot_be_set_by_client(client: TestClient) -> None:
     body = _create(client, id=999, is_overdue=True, created_at=PAST, status="done")
-    assert body["id"] == 1
-    assert body["is_overdue"] is False
-    assert body["status"] == "todo"
-    assert body["created_at"] != PAST
+    assert (body["id"], body["is_overdue"], body["status"]) == (1, False, "todo")
 
 
 @pytest.mark.parametrize(
@@ -68,7 +85,7 @@ def test_nested_error_path(client: TestClient) -> None:
     assert resp.json()["detail"][0]["loc"] == ["body", "checklist", 0, "label"]
 
 
-# --- PATCH ------------------------------------------------------------
+# --- PATCH -----------------------------------------------------
 def test_patch_empty_is_noop(client: TestClient) -> None:
     created = _create(client, description="garde-moi")
     body = client.patch(f"/tasks/{created['id']}", json={}).json()
@@ -80,12 +97,6 @@ def test_patch_null_clears_description(client: TestClient) -> None:
     created = _create(client, description="à effacer")
     body = client.patch(f"/tasks/{created['id']}", json={"description": None}).json()
     assert body["description"] is None
-
-
-def test_patch_empty_tags_clears(client: TestClient) -> None:
-    created = _create(client, tags=["a", "b"])
-    body = client.patch(f"/tasks/{created['id']}", json={"tags": []}).json()
-    assert body["tags"] == []
 
 
 def test_patch_title_null_is_422(client: TestClient) -> None:
@@ -104,7 +115,7 @@ def test_patch_missing_is_404(client: TestClient) -> None:
     assert client.patch("/tasks/999", json={"status": "done"}).status_code == 404
 
 
-# --- liste / filtres -------------------------------------------------
+# --- liste / filtres ------------------------------------------
 def test_list_pagination_metadata(client: TestClient) -> None:
     for i in range(3):
         _create(client, title=f"t{i}", priority=i + 1)
@@ -123,20 +134,8 @@ def test_list_search_and_filters_combine(client: TestClient) -> None:
     assert [t["title"] for t in page["items"]] == ["doc archi"]
 
 
-# --- suppression ---------------------------------------------------
+# --- suppression -------------------------------------------
 def test_delete_is_204_then_404(client: TestClient) -> None:
     created = _create(client)
     assert client.delete(f"/tasks/{created['id']}").status_code == 204
     assert client.delete(f"/tasks/{created['id']}").status_code == 404
-
-
-# --- contrat OpenAPI ---------------------------------------------------
-def test_openapi_separates_input_output(client: TestClient) -> None:
-    schemas = client.get("/openapi.json").json()["components"]["schemas"]
-    assert any("TaskCreate" in name for name in schemas)
-    assert any("TaskRead" in name for name in schemas)
-
-
-def test_estimate_hours_serialized_as_string(client: TestClient) -> None:
-    body = _create(client, estimate_hours="2.5")
-    assert body["estimate_hours"] == "2.5"

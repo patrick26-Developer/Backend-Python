@@ -1,7 +1,7 @@
-"""Persistance en mémoire (échafaudage — remplacé par SQLAlchemy au Module 04).
+"""Implémentation en mémoire de `TaskRepository` (échafaudage — Module 04 la remplace).
 
-Le store parle en `TaskRead` (le modèle riche) et ne connaît rien de HTTP.
-`is_overdue` est un `computed_field` : recalculé à chaque lecture, jamais stocké.
+Contenu déplacé depuis `taskman/store.py` (Module 02), sans changement de logique.
+Ne connaît rien de FastAPI ni de HTTP.
 """
 
 from __future__ import annotations
@@ -9,14 +9,7 @@ from __future__ import annotations
 from datetime import UTC, datetime
 from operator import attrgetter
 
-from taskman.models import (
-    SortKey,
-    TaskCreate,
-    TaskFilters,
-    TaskRead,
-    TaskStatus,
-    TaskUpdate,
-)
+from taskman.schemas import SortKey, TaskCreate, TaskFilters, TaskRead, TaskStatus, TaskUpdate
 
 
 def _now() -> datetime:
@@ -26,10 +19,8 @@ def _now() -> datetime:
 def _sorted(rows: list[TaskRead], sort: SortKey) -> list[TaskRead]:
     reverse = sort.startswith("-")
     field = sort.lstrip("-")
-    # clé secondaire déterministe
-    rows.sort(key=attrgetter("created_at"))
+    rows.sort(key=attrgetter("created_at"))  # clé secondaire déterministe
     if field == "due_date":
-        # les tâches sans échéance en dernier, quel que soit le sens
         rows.sort(
             key=lambda t: (t.due_date is None, t.due_date or datetime.min.replace(tzinfo=UTC)),
             reverse=reverse,
@@ -39,7 +30,7 @@ def _sorted(rows: list[TaskRead], sort: SortKey) -> list[TaskRead]:
     return rows
 
 
-class InMemoryTaskStore:
+class InMemoryTaskRepository:
     def __init__(self) -> None:
         self._items: dict[int, TaskRead] = {}
         self._seq: int = 0
@@ -98,8 +89,6 @@ class InMemoryTaskStore:
         data = current.model_dump()
         data.update(patch)
         data["updated_at"] = _now()
-        # model_validate revalide TOUT (y compris la checklist imbriquée) ;
-        # `is_overdue` (computed) présent dans `data` est ignoré puis recalculé.
         return self._put(TaskRead.model_validate(data))
 
     def delete(self, task_id: int) -> bool:

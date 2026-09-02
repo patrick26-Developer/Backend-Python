@@ -1,8 +1,6 @@
-"""Fixtures partagées de la suite de tests taskman (Module 03).
+"""Fixtures pour tester la solution du Module 03 (standalone).
 
-On teste contre une app fabriquée par `create_app`, avec le repository **remplacé**
-via `app.dependency_overrides` — c'est ça, la testabilité par injection de
-dépendances.
+`cd 03-architecture-projet-mature/solutions && pytest`
 """
 
 from __future__ import annotations
@@ -20,7 +18,6 @@ from taskman.repositories import InMemoryTaskRepository
 
 @pytest.fixture
 def repository() -> InMemoryTaskRepository:
-    """Un repository neuf par test — isolation garantie."""
     return InMemoryTaskRepository()
 
 

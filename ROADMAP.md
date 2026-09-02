@@ -16,7 +16,8 @@ Légende difficulté : 🟢 accessible · 🟡 demande de la rigueur · 🔴 exi
 | 00 · Setup | ✅ | ✅ | — |
 | 01 · Fondations HTTP & FastAPI | ✅ | ✅ | ✅ |
 | 02 · Modélisation & validation | ✅ | ✅ | ✅ |
-| 03 → 12 | 🚧 stubs | 🚧 | 🚧 |
+| 03 · Architecture d'un projet mature | ✅ | ✅ | ✅ |
+| 04 → 12 | 🚧 stubs | 🚧 | 🚧 |
 
 > La formation se construit module par module. Chaque module livré : théorie, exercices,
 > solutions complètes testées (`ruff` + `mypy --strict` + `pytest` au vert) et explication

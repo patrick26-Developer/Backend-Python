@@ -8,7 +8,7 @@ from decimal import Decimal
 import pytest
 from pydantic import ValidationError
 
-from taskman.models import TaskCreate, TaskFilters, TaskRead, TaskStatus, TaskUpdate
+from taskman.schemas import TaskCreate, TaskFilters, TaskRead, TaskStatus, TaskUpdate
 
 FUTURE = datetime.now(UTC) + timedelta(days=3)
 PAST = datetime.now(UTC) - timedelta(days=3)

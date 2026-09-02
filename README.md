@@ -48,6 +48,9 @@ qualité. À la fin, `taskman` est une API :
 
 ## Comment utiliser ce dépôt / How to use this repo
 
+> 📖 **Lis d'abord [`GUIDE.md`](GUIDE.md)** — le mode d'emploi complet de la formation
+> (structure, boucle d'apprentissage, commandes, rythme, quoi faire quand tu es bloqué).
+
 1. **Installe l'environnement** — suis [`00-setup/README.md`](00-setup/README.md).
 2. **Travaille les modules dans l'ordre.** Chaque dossier `NN-...` contient :
    - `THEORIE.md` — la théorie *juste nécessaire*, avec les pourquoi et les pièges ;

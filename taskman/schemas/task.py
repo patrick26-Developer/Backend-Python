@@ -1,14 +1,7 @@
-"""Schémas Pydantic de taskman.
+"""Schémas Pydantic des tâches (contrats d'entrée / sortie).
 
-Module 02 : contrats d'entrée / sortie strictement séparés.
-- `TaskBase`   : champs communs + validateurs de FORMAT (pas de règle métier).
-- `TaskCreate` : entrée POST — ajoute `project_id` + règle métier « échéance future ».
-- `TaskUpdate` : entrée PATCH — tout optionnel, règle « échéance future » si fournie.
-- `TaskRead`   : sortie — champs serveur + champ calculé `is_overdue`.
-                 NE valide PAS « échéance future » (une tâche passée reste lisible).
-- `TaskFilters`: query model des filtres de `GET /tasks` (`extra="forbid"`).
-
-Voir 02-modelisation-et-validation/PAS-A-PAS.md pour l'explication ligne par ligne.
+Inchangé depuis le Module 02, seulement déplacé de `taskman/models.py` vers
+`taskman/schemas/task.py` — les schémas sont une couche à part entière.
 """
 
 from __future__ import annotations
@@ -38,8 +31,6 @@ class TaskStatus(StrEnum):
 
 
 class ChecklistItem(BaseModel):
-    """Sous-tâche d'une checklist. Validée récursivement dans `checklist: list[...]`."""
-
     label: str = Field(min_length=1, max_length=120)
     done: bool = False
 
@@ -52,9 +43,6 @@ class ChecklistItem(BaseModel):
         return v
 
 
-# --------------------------------------------------------------------------- #
-#  Base : champs communs + validateurs de FORMAT uniquement                    #
-# --------------------------------------------------------------------------- #
 class TaskBase(BaseModel):
     title: str = Field(
         min_length=1,
@@ -93,19 +81,13 @@ class TaskBase(BaseModel):
 
 
 def _ensure_future(due_date: datetime | None) -> None:
-    """Règle métier partagée par TaskCreate et TaskUpdate."""
     if due_date is not None:
         now = datetime.now(due_date.tzinfo or UTC)
         if due_date < now:
             raise ValueError("la date d'échéance doit être dans le futur")
 
 
-# --------------------------------------------------------------------------- #
-#  Entrées                                                                     #
-# --------------------------------------------------------------------------- #
 class TaskCreate(TaskBase):
-    """Corps de `POST /tasks`."""
-
     project_id: int = Field(ge=1, description="Projet auquel rattacher la tâche")
 
     @model_validator(mode="after")
@@ -115,12 +97,6 @@ class TaskCreate(TaskBase):
 
 
 class TaskUpdate(BaseModel):
-    """Corps de `PATCH /tasks/{id}` — tous les champs optionnels.
-
-    `title` reste `str` (non nullable) : on n'autorise pas à l'effacer.
-    `project_id` est absent : on ne déplace pas une tâche de projet dans ce module.
-    """
-
     title: str | None = Field(default=None, min_length=1, max_length=200)
     description: str | None = None
     priority: int | None = Field(default=None, ge=1, le=5)
@@ -151,21 +127,14 @@ class TaskUpdate(BaseModel):
     @model_validator(mode="after")
     def _check_provided_fields(self) -> TaskUpdate:
         provided = self.model_fields_set
-        # `title` est optionnel (on peut l'omettre) mais NON nullable : `null` explicite refusé.
         if "title" in provided and self.title is None:
             raise ValueError("title ne peut pas être mis à null")
-        # règle métier « échéance future » seulement si `due_date` est fournie non nulle
         if "due_date" in provided:
             _ensure_future(self.due_date)
         return self
 
 
-# --------------------------------------------------------------------------- #
-#  Sortie                                                                      #
-# --------------------------------------------------------------------------- #
 class TaskRead(TaskBase):
-    """Ce que l'API renvoie. Pas de validation « échéance future » ici."""
-
     model_config = ConfigDict(
         json_schema_extra={
             "examples": [
@@ -198,7 +167,6 @@ class TaskRead(TaskBase):
     @computed_field  # type: ignore[prop-decorator]
     @property
     def is_overdue(self) -> bool:
-        """En retard = échéance passée ET pas encore terminée."""
         if self.due_date is None or self.status is TaskStatus.done:
             return False
         return self.due_date < datetime.now(self.due_date.tzinfo or UTC)
@@ -211,11 +179,8 @@ class TaskPage(BaseModel):
     offset: int
 
 
-# --------------------------------------------------------------------------- #
-#  Query model des filtres                                                     #
-# --------------------------------------------------------------------------- #
 class TaskFilters(BaseModel):
-    model_config = ConfigDict(extra="forbid")  # ?statuss=done -> 422
+    model_config = ConfigDict(extra="forbid")
 
     status: TaskStatus | None = None
     min_priority: int | None = Field(default=None, ge=1, le=5)
