@@ -24,6 +24,10 @@ dependencies = [
     # Module 06 : authentification
     "pwdlib[argon2]>=0.2.1,<0.3",  # hachage de mots de passe (argon2)
     "pyjwt>=2.10,<3.0",            # JSON Web Tokens
+    # Module 08 : cache & tâches de fond
+    "redis>=5.2,<6.0",            # client Redis async (cache)
+    "taskiq>=0.11,<0.12",         # file de tâches async
+    "taskiq-redis>=1.0,<2.0",     # broker Redis pour taskiq
 ]
 
 [project.optional-dependencies]
@@ -35,6 +39,8 @@ dev = [
     "httpx>=0.27,<0.28",
     "ruff>=0.7,<1.0",
     "mypy>=1.11,<2.0",
+    # Module 07 : tests d'intégration sur un vrai PostgreSQL (nécessite Docker).
+    "testcontainers[postgres]>=4.8,<5.0",
 ]
 # Site de la formation :  pip install -e ".[docs]"  puis  mkdocs serve
 docs = [
@@ -101,21 +107,31 @@ exclude = ['^\d\d-', '^alembic/']
 minversion = "8.0"
 addopts = "-ra -q --strict-markers"
 testpaths = ["tests"]
+pythonpath = ["."]
 asyncio_mode = "auto"
 markers = [
     "slow: test lent (sous-processus, migrations) — exclure avec -m 'not slow'",
+    "e2e: test de bout en bout nécessitant Docker (testcontainers) — exclure avec -m 'not e2e'",
 ]
 filterwarnings = [
     "error",
-    # starlette 1.x annonce la future bascule vers httpx2 pour son TestClient ;
-    # on migre vers httpx.AsyncClient au Module 07.
     "ignore::starlette.exceptions.StarletteDeprecationWarning",
+    "ignore::DeprecationWarning:testcontainers.*",
 ]
 
 [tool.coverage.run]
 source = ["taskman"]
 branch = true
+omit = ["taskman/__main__.py"]
 
 [tool.coverage.report]
 show_missing = true
 skip_covered = true
+# La CI échoue si la couverture passe sous ce seuil.
+fail_under = 85
+exclude_also = [
+    "if TYPE_CHECKING:",
+    "raise NotImplementedError",
+    "\\.\\.\\.$",
+    "if __name__ == .__main__.:",
+]

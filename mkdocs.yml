@@ -117,7 +117,11 @@ nav:
           - Exercices: 06-authentification-autorisation/exercices/README.md
           - Solutions (choix de conception): 06-authentification-autorisation/solutions/README.md
           - Explication pas à pas: 06-authentification-autorisation/PAS-A-PAS.md
-      - "07 · Tests": 07-tests/THEORIE.md
+      - "07 · Tests":
+          - Théorie: 07-tests/THEORIE.md
+          - Exercices: 07-tests/exercices/README.md
+          - Solutions (choix de conception): 07-tests/solutions/README.md
+          - Explication pas à pas: 07-tests/PAS-A-PAS.md
       - "08 · Async avancé & performance": 08-async-avance-performance/THEORIE.md
       - "09 · Observabilité & prod-readiness": 09-observabilite-prod-readiness/THEORIE.md
       - "10 · Sécurité approfondie": 10-securite-approfondie/THEORIE.md
