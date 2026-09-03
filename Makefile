@@ -50,6 +50,22 @@ check: lint type test ## Tout ce que la CI vérifie
 run: ## Démarre le serveur de développement (reload)
 	fastapi dev taskman/main.py
 
+.PHONY: docs
+docs: ## Sert le site de la formation (mkdocs)
+	mkdocs serve
+
+.PHONY: docker-build
+docker-build: ## Construit l'image de production
+	docker build -t taskman:local .
+
+.PHONY: up
+up: ## Démarre la stack complète (api + db + redis)
+	docker compose up --build
+
+.PHONY: audit
+audit: ## Scanne les dépendances (CVE)
+	pip-audit --strict
+
 .PHONY: clean
 clean: ## Supprime les caches d'outils
 	rm -rf .ruff_cache .mypy_cache .pytest_cache htmlcov .coverage

@@ -138,7 +138,12 @@ nav:
           - Exercices: 10-securite-approfondie/exercices/README.md
           - Solutions (choix de conception): 10-securite-approfondie/solutions/README.md
           - Explication pas à pas: 10-securite-approfondie/PAS-A-PAS.md
-      - "11 · Déploiement & DevOps": 11-deploiement-devops/THEORIE.md
+      - "11 · Déploiement & DevOps":
+          - Théorie: 11-deploiement-devops/THEORIE.md
+          - Exercices: 11-deploiement-devops/exercices/README.md
+          - Solutions (choix de conception): 11-deploiement-devops/solutions/README.md
+          - Explication pas à pas: 11-deploiement-devops/PAS-A-PAS.md
+          - Procédure de déploiement: docs/deploiement.md
       - "12 · Architecture & scalabilité": 12-architecture-scalabilite/THEORIE.md
   - Projets:
       - Vue d'ensemble: projets/README.md

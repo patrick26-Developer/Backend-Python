@@ -24,7 +24,8 @@ Légende difficulté : 🟢 accessible · 🟡 demande de la rigueur · 🔴 exi
 | 08 · Async avancé & performance (cache, cursor, streaming, workers) | ✅ | ✅ | ✅ |
 | 09 · Observabilité & prod-readiness (Prometheus, OTel, health/ready) | ✅ | ✅ | ✅ |
 | 10 · Sécurité approfondie (OWASP API Top 10, rate limit, en-têtes, CORS) | ✅ | ✅ | ✅ |
-| 11 → 12 | 🚧 stubs | 🚧 | 🚧 |
+| 11 · Déploiement & DevOps (Docker, compose, CI/CD, migrations en prod) | ✅ | ✅ | ✅ |
+| 12 | 🚧 stub | 🚧 | 🚧 |
 
 > La formation se construit module par module. Chaque module livré : théorie, exercices,
 > solutions complètes testées (`ruff` + `mypy --strict` + `pytest` au vert) et explication
