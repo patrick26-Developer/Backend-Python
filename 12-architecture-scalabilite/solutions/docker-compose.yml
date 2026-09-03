@@ -1,0 +1,48 @@
+# Stack complète en local. Démarrer :  docker compose up --build
+# API sur http://localhost:8000/docs
+
+services:
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      APP_ENV: local
+      APP_DATABASE_URL: postgresql+asyncpg://taskman:taskman@db:5432/taskman
+      APP_REDIS_URL: redis://redis:6379/0
+      APP_JWT_SECRET_KEY: dev-only-not-secret-change-me-with-openssl-rand-hex-32
+      RUN_MIGRATIONS: "true"
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_USER: taskman
+      POSTGRES_PASSWORD: taskman
+      POSTGRES_DB: taskman
+    ports:
+      - "5432:5432"
+    volumes:
+      - taskman_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U taskman"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  taskman_pgdata:

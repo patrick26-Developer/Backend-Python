@@ -28,6 +28,8 @@ dependencies = [
     "redis>=5.2,<6.0",            # client Redis async (cache)
     "taskiq>=0.11,<0.12",         # file de tâches async
     "taskiq-redis>=1.0,<2.0",     # broker Redis pour taskiq
+    # Module 12 : temps réel
+    "sse-starlette>=2.1,<3.0",
     # Module 09 : observabilité
     "prometheus-client>=0.21,<0.22",
     "opentelemetry-sdk>=1.29,<2.0",

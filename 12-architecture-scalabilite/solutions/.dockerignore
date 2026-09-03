@@ -1,0 +1,32 @@
+# Tout ce qui ne doit PAS entrer dans l'image.
+.git
+.github
+.venv
+venv
+__pycache__
+*.pyc
+.pytest_cache
+.ruff_cache
+.mypy_cache
+.coverage
+htmlcov
+coverage.xml
+site
+node_modules
+
+# Les supports de cours (le code de prod n'en a pas besoin)
+0*-*/
+annexes
+projets
+*.md
+!README.md
+
+# Tests, config locale
+tests
+.env
+.env.*
+!.env.example
+*.sqlite3
+*.db
+docker-compose*.yml
+mkdocs.yml

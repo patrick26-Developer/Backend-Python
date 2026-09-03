@@ -144,6 +144,13 @@ nav:
           - Solutions (choix de conception): 11-deploiement-devops/solutions/README.md
           - Explication pas à pas: 11-deploiement-devops/PAS-A-PAS.md
           - Procédure de déploiement: docs/deploiement.md
-      - "12 · Architecture & scalabilité": 12-architecture-scalabilite/THEORIE.md
+      - "12 · Architecture & scalabilité":
+          - Théorie: 12-architecture-scalabilite/THEORIE.md
+          - Exercices: 12-architecture-scalabilite/exercices/README.md
+          - Solutions (choix de conception): 12-architecture-scalabilite/solutions/README.md
+          - Explication pas à pas: 12-architecture-scalabilite/PAS-A-PAS.md
+          - "ADR 0001 · Monolithe modulaire": docs/adr/0001-monolithe-modulaire.md
+          - "ADR 0002 · Outbox pattern": docs/adr/0002-outbox-pattern.md
+          - "ADR 0003 · Versionnage par URI": docs/adr/0003-versionnage-api-uri.md
   - Projets:
       - Vue d'ensemble: projets/README.md
