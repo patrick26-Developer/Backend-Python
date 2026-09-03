@@ -83,6 +83,7 @@ nav:
   - Feuille de route: ROADMAP.md
   - Couverture de la doc FastAPI: DOC-COVERAGE.md
   - Licence: LICENSING.md
+  - Sécurité: SECURITY.md
   - Annexes:
       - Typage Python: annexes/python-typing.md
   - Modules:
@@ -132,7 +133,11 @@ nav:
           - Exercices: 09-observabilite-prod-readiness/exercices/README.md
           - Solutions (choix de conception): 09-observabilite-prod-readiness/solutions/README.md
           - Explication pas à pas: 09-observabilite-prod-readiness/PAS-A-PAS.md
-      - "10 · Sécurité approfondie": 10-securite-approfondie/THEORIE.md
+      - "10 · Sécurité approfondie":
+          - Théorie: 10-securite-approfondie/THEORIE.md
+          - Exercices: 10-securite-approfondie/exercices/README.md
+          - Solutions (choix de conception): 10-securite-approfondie/solutions/README.md
+          - Explication pas à pas: 10-securite-approfondie/PAS-A-PAS.md
       - "11 · Déploiement & DevOps": 11-deploiement-devops/THEORIE.md
       - "12 · Architecture & scalabilité": 12-architecture-scalabilite/THEORIE.md
   - Projets:

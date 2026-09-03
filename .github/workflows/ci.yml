@@ -34,5 +34,39 @@ jobs:
       - name: Types (mypy)
         run: mypy taskman
 
-      - name: Tests
-        run: pytest --cov=taskman --cov-report=term-missing
+      - name: Migrations à jour
+        run: |
+          alembic upgrade head
+          alembic check
+
+      - name: Tests + couverture
+        run: pytest -m "not e2e" --cov=taskman --cov-report=term-missing
+
+  security:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+      - name: Audit des dépendances (pip-audit)
+        run: |
+          python -m pip install -U pip pip-audit
+          pip install -e "."
+          pip-audit --strict --desc
+
+  e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+      - name: Install
+        run: |
+          python -m pip install -U pip
+          pip install -e ".[dev]"
+      - name: Tests e2e (PostgreSQL réel via testcontainers)
+        run: pytest -m e2e

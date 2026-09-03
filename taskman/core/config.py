@@ -34,6 +34,9 @@ class Settings(BaseSettings):
 
     host: str = "127.0.0.1"
     port: int = Field(default=8000, ge=1, le=65535)
+    # Module 11 : si l'API est servie sous un sous-chemin par le reverse proxy
+    # (ex. https://exemple.org/api), déclare-le ici pour des liens/docs corrects.
+    root_path: str = ""
     log_level: Literal["DEBUG", "INFO", "WARNING", "ERROR"] = "INFO"
     # JSON en staging/prod ; texte lisible en local (surchargable via APP_LOG_JSON).
     log_json: bool | None = None
@@ -49,6 +52,12 @@ class Settings(BaseSettings):
     # Module 09 : observabilité
     otel_enabled: bool = False
     otel_endpoint: str | None = None  # ex. http://collector:4318 ; sinon exporteur console
+
+    # Module 10 : durcissement. `[]` = aucune origine autorisée (défaut prudent).
+    cors_origins: list[str] = Field(default_factory=list)
+    rate_limit_enabled: bool = True
+    auth_rate_limit_per_minute: int = Field(default=10, ge=1)
+    max_request_body_bytes: int = Field(default=1_048_576, ge=1024)  # 1 Mio
 
     # Module 06 : authentification. EN PRODUCTION, APP_JWT_SECRET_KEY est OBLIGATOIRE
     # et doit être aléatoire (openssl rand -hex 32). Le défaut ci-dessous ne sert qu'au dev.
