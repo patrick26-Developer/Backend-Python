@@ -1,0 +1,32 @@
+# Stack de développement local. Démarrer :  docker compose up -d
+# (Le Dockerfile de l'API arrive au Module 11 ; ici on ne lance que les dépendances.)
+
+services:
+  db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_USER: taskman
+      POSTGRES_PASSWORD: taskman
+      POSTGRES_DB: taskman
+    ports:
+      - "5432:5432"
+    volumes:
+      - taskman_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U taskman"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  taskman_pgdata:

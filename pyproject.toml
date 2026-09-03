@@ -28,6 +28,12 @@ dependencies = [
     "redis>=5.2,<6.0",            # client Redis async (cache)
     "taskiq>=0.11,<0.12",         # file de tâches async
     "taskiq-redis>=1.0,<2.0",     # broker Redis pour taskiq
+    # Module 09 : observabilité
+    "prometheus-client>=0.21,<0.22",
+    "opentelemetry-sdk>=1.29,<2.0",
+    "opentelemetry-instrumentation-fastapi>=0.50b0,<1.0",
+    "opentelemetry-instrumentation-sqlalchemy>=0.50b0,<1.0",
+    "opentelemetry-exporter-otlp-proto-http>=1.29,<2.0",
 ]
 
 [project.optional-dependencies]

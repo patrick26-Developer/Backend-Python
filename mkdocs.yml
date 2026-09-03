@@ -127,7 +127,11 @@ nav:
           - Exercices: 08-async-avance-performance/exercices/README.md
           - Solutions (choix de conception): 08-async-avance-performance/solutions/README.md
           - Explication pas à pas: 08-async-avance-performance/PAS-A-PAS.md
-      - "09 · Observabilité & prod-readiness": 09-observabilite-prod-readiness/THEORIE.md
+      - "09 · Observabilité & prod-readiness":
+          - Théorie: 09-observabilite-prod-readiness/THEORIE.md
+          - Exercices: 09-observabilite-prod-readiness/exercices/README.md
+          - Solutions (choix de conception): 09-observabilite-prod-readiness/solutions/README.md
+          - Explication pas à pas: 09-observabilite-prod-readiness/PAS-A-PAS.md
       - "10 · Sécurité approfondie": 10-securite-approfondie/THEORIE.md
       - "11 · Déploiement & DevOps": 11-deploiement-devops/THEORIE.md
       - "12 · Architecture & scalabilité": 12-architecture-scalabilite/THEORIE.md
