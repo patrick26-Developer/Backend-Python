@@ -122,7 +122,11 @@ filterwarnings = [
 [tool.coverage.run]
 source = ["taskman"]
 branch = true
-omit = ["taskman/__main__.py"]
+omit = [
+    "taskman/__main__.py",
+    "taskman/worker.py",   # point d'entrée CLI taskiq — testé manuellement avec Redis
+    "taskman/tasks.py",    # définition du broker + tâches — idem
+]
 
 [tool.coverage.report]
 show_missing = true

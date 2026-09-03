@@ -122,7 +122,11 @@ nav:
           - Exercices: 07-tests/exercices/README.md
           - Solutions (choix de conception): 07-tests/solutions/README.md
           - Explication pas à pas: 07-tests/PAS-A-PAS.md
-      - "08 · Async avancé & performance": 08-async-avance-performance/THEORIE.md
+      - "08 · Async avancé & performance":
+          - Théorie: 08-async-avance-performance/THEORIE.md
+          - Exercices: 08-async-avance-performance/exercices/README.md
+          - Solutions (choix de conception): 08-async-avance-performance/solutions/README.md
+          - Explication pas à pas: 08-async-avance-performance/PAS-A-PAS.md
       - "09 · Observabilité & prod-readiness": 09-observabilite-prod-readiness/THEORIE.md
       - "10 · Sécurité approfondie": 10-securite-approfondie/THEORIE.md
       - "11 · Déploiement & DevOps": 11-deploiement-devops/THEORIE.md
