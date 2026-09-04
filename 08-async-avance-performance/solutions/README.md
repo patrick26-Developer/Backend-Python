@@ -1,6 +1,6 @@
 # Module 08 — Solutions : les choix de conception
 
-> Snapshot `taskman` v0.8.0 dans [`taskman/`](taskman/) + [`tests/`](tests/). Explication
+> Snapshot `taskman` v0.8.0 dans `taskman/` + `tests/`. Explication
 > ligne par ligne : [`../PAS-A-PAS.md`](../PAS-A-PAS.md).
 
 ```bash

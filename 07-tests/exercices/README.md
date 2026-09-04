@@ -123,7 +123,7 @@ ruff check . && ruff format --check . && mypy taskman && pytest -m "not e2e"
 git add -A && git commit -m "feat(module-07): stratégie de tests — pyramide, factories, testcontainers, action complete en TDD"
 ```
 
-Puis [`../solutions/README.md`](../solutions/) et [`../PAS-A-PAS.md`](../PAS-A-PAS.md).
+Puis [`../solutions/README.md`](../solutions/README.md) et [`../PAS-A-PAS.md`](../PAS-A-PAS.md).
 
 **Mini-projet associé** : [`pollup`](../../projets/checkpoints/pollup/BRIEF.md) — à construire
 **entièrement** en TDD.

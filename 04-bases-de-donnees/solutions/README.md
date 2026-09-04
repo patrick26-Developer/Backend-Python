@@ -1,6 +1,6 @@
 # Module 04 — Solutions : les choix de conception
 
-> Code dans [`taskman/`](taskman/) + [`alembic/`](alembic/). Explication ligne par ligne :
+> Code dans `taskman/` + [`alembic/`](alembic/). Explication ligne par ligne :
 > [`../PAS-A-PAS.md`](../PAS-A-PAS.md).
 
 ```bash

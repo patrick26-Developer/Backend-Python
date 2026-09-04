@@ -118,4 +118,4 @@ ruff check . && mypy taskman && pytest -m "not e2e"
 git add -A && git commit -m "feat(module-11): Docker multi-stage, docker-compose, CI/CD, migrations en prod"
 ```
 
-Puis [`../solutions/README.md`](../solutions/) et [`../PAS-A-PAS.md`](../PAS-A-PAS.md).
+Puis [`../solutions/README.md`](../solutions/README.md) et [`../PAS-A-PAS.md`](../PAS-A-PAS.md).

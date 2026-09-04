@@ -149,6 +149,6 @@ ruff check . && ruff format --check . && mypy taskman && pytest
 git add -A && git commit -m "feat(module-06): auth OAuth2+JWT, RBAC, isolation des données par utilisateur"
 ```
 
-Puis [`../solutions/README.md`](../solutions/) et [`../PAS-A-PAS.md`](../PAS-A-PAS.md).
+Puis [`../solutions/README.md`](../solutions/README.md) et [`../PAS-A-PAS.md`](../PAS-A-PAS.md).
 
 **Mini-projet associé** : reprends `linkstash` ou `pollup` et ajoute-lui l'authentification.

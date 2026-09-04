@@ -128,4 +128,4 @@ lint-imports
 git add -A && git commit -m "feat(module-12): bounded contexts, outbox, Idempotency-Key, versionnage, SSE"
 ```
 
-Puis [`../solutions/README.md`](../solutions/) et [`../PAS-A-PAS.md`](../PAS-A-PAS.md).
+Puis [`../solutions/README.md`](../solutions/README.md) et [`../PAS-A-PAS.md`](../PAS-A-PAS.md).

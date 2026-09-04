@@ -1,6 +1,6 @@
 # Module 03 — Solutions : les choix de conception
 
-> Code dans [`taskman/`](taskman/) (arborescence complète). Explication ligne par ligne :
+> Code dans `taskman/` (arborescence complète). Explication ligne par ligne :
 > [`../PAS-A-PAS.md`](../PAS-A-PAS.md).
 
 ```bash

@@ -10,10 +10,10 @@ compétences tient hors du contexte `taskman`. Énoncé + solution de référenc
 
 | Projet | Débloqué après | Valide | Statut |
 |---|---|---|---|
-| [`linkstash`](checkpoints/linkstash/BRIEF.md) — marque-pages (URL, tags, notes, recherche) | Module 02 | routing, Pydantic, response models, `PATCH` | ✅ énoncé + [solution](checkpoints/linkstash/solution/) |
-| [`shorturl`](checkpoints/shorturl/BRIEF.md) — raccourcisseur d'URL + compteur de clics | Module 04 | DB async, migrations, repository, unicité | ✅ énoncé + [solution](checkpoints/shorturl/solution/) |
-| [`pollup`](checkpoints/pollup/BRIEF.md) — sondages (questions, options, votes) | Module 07 | archi en couches + suite de tests, TDD | ✅ énoncé + [solution](checkpoints/pollup/solution/) |
-| [`statuspage`](checkpoints/statuspage/BRIEF.md) — supervision de services | Module 09 | observabilité, health/ready, métriques, jobs | ✅ énoncé + [solution](checkpoints/statuspage/solution/) |
+| [`linkstash`](checkpoints/linkstash/BRIEF.md) — marque-pages (URL, tags, notes, recherche) | Module 02 | routing, Pydantic, response models, `PATCH` | ✅ énoncé + [solution](checkpoints/linkstash/solution/README.md) |
+| [`shorturl`](checkpoints/shorturl/BRIEF.md) — raccourcisseur d'URL + compteur de clics | Module 04 | DB async, migrations, repository, unicité | ✅ énoncé + [solution](checkpoints/shorturl/solution/README.md) |
+| [`pollup`](checkpoints/pollup/BRIEF.md) — sondages (questions, options, votes) | Module 07 | archi en couches + suite de tests, TDD | ✅ énoncé + [solution](checkpoints/pollup/solution/README.md) |
+| [`statuspage`](checkpoints/statuspage/BRIEF.md) — supervision de services | Module 09 | observabilité, health/ready, métriques, jobs | ✅ énoncé + [solution](checkpoints/statuspage/solution/README.md) |
 
 ## 2. Projets de domaine complets (les 3 « non sélectionnés »)
 
@@ -27,7 +27,7 @@ complète, testée, expliquée** (`solution/`). Tu peux les faire :
 
 | Projet | Domaine | Ce qu'il pousse plus loin que `taskman` | Statut |
 |---|---|---|---|
-| [`shopfast`](shopfast/BRIEF.md) | **E-commerce** (catalogue, panier, commandes, paiement simulé, stock) | transactions, cohérence, idempotence des paiements, jobs de fond, verrous de stock | ✅ énoncé + [solution](shopfast/solution/) (invariants durs) |
+| [`shopfast`](shopfast/BRIEF.md) | **E-commerce** (catalogue, panier, commandes, paiement simulé, stock) | transactions, cohérence, idempotence des paiements, jobs de fond, verrous de stock | ✅ énoncé + [solution](shopfast/solution/README.md) (invariants durs) |
 | [`inkwell`](inkwell/BRIEF.md) | **Blog / CMS** (articles, versions, commentaires, médias, rôles éditoriaux) | upload de fichiers, workflow de publication, cache de lecture, SEO/slug, modération | ✅ énoncé par phases — solution à construire (patrons dans `taskman` + `shopfast`) |
 | [`saashub`](saashub/BRIEF.md) | **SaaS multi-tenant** (organisations, membres, rôles, facturation, quotas) | isolation multi-tenant, RBAC fin, limites d'usage, webhooks, plans & billing | ✅ énoncé par phases — solution à construire (patrons dans `taskman` + `shopfast`) |
 

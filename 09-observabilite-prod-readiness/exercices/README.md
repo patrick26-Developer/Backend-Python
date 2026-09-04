@@ -113,6 +113,6 @@ ruff check . && ruff format --check . && mypy taskman && pytest -m "not e2e"
 git add -A && git commit -m "feat(module-09): métriques Prometheus (RED), traces OTel, /health vs /ready"
 ```
 
-Puis [`../solutions/README.md`](../solutions/) et [`../PAS-A-PAS.md`](../PAS-A-PAS.md).
+Puis [`../solutions/README.md`](../solutions/README.md) et [`../PAS-A-PAS.md`](../PAS-A-PAS.md).
 
 **Mini-projet associé** : [`statuspage`](../../projets/checkpoints/statuspage/BRIEF.md).

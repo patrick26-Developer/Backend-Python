@@ -107,4 +107,4 @@ pip install pip-audit && pip-audit --strict
 git add -A && git commit -m "feat(module-10): OWASP audit, rate limiting, en-têtes, CORS, limites"
 ```
 
-Puis [`../solutions/README.md`](../solutions/) et [`../PAS-A-PAS.md`](../PAS-A-PAS.md).
+Puis [`../solutions/README.md`](../solutions/README.md) et [`../PAS-A-PAS.md`](../PAS-A-PAS.md).

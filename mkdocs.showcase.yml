@@ -1,0 +1,111 @@
+# Site VITRINE (public) — n'expose QUE l'accueil + le mode d'emploi + les Modules 00 et 01.
+# Build :  mkdocs build -f mkdocs.showcase.yml   ->   site_showcase/
+# Le site complet (privé) reste mkdocs.yml.
+
+site_name: "Maîtriser FastAPI — formation"
+site_description: "Formation FastAPI de niveau production : concevoir, tester et exploiter des API. Modules 00 et 01 en accès libre."
+site_author: "Patrick De Grâce"
+copyright: "&copy; 2026 Patrick De Grâce — Contenu tous droits réservés"
+
+docs_dir: .
+site_dir: site_showcase
+
+# On exclut TOUT sauf ce qui est dans la nav ci-dessous.
+exclude_docs: |
+  .venv/
+  .github/
+  .ruff_cache/
+  .mypy_cache/
+  .pytest_cache/
+  site/
+  site_showcase/
+  node_modules/
+  tests/
+  scripts/
+  **/taskman/
+  **/alembic/
+  **/solution/
+  **/starter/
+  .vscode/
+  02-modelisation-et-validation/
+  03-architecture-projet-mature/
+  04-bases-de-donnees/
+  05-erreurs-logs-middleware/
+  06-authentification-autorisation/
+  07-tests/
+  08-async-avance-performance/
+  09-observabilite-prod-readiness/
+  10-securite-approfondie/
+  11-deploiement-devops/
+  12-architecture-scalabilite/
+  annexes/
+  docs/
+  projets/
+  /CHANGELOG.md
+  /CONTRIBUTING.md
+  /DOC-COVERAGE.md
+  /LICENSING.md
+  /SECURITY.md
+  /README.md
+  /ROADMAP.md
+
+not_in_nav: |
+  LICENSE-CODE.txt
+  LICENSE-CONTENT.txt
+
+theme:
+  name: material
+  language: fr
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: teal
+      accent: teal
+      toggle: { icon: material/weather-night, name: Mode sombre }
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: teal
+      accent: teal
+      toggle: { icon: material/weather-sunny, name: Mode clair }
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.top
+    - navigation.footer
+    - toc.follow
+    - content.code.copy
+    - content.code.annotate
+    - search.highlight
+    - search.suggest
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - tables
+  - toc: { permalink: true }
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight: { anchor_linenums: true, line_spans: __span }
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.tabbed: { alternate_style: true }
+  - pymdownx.tasklist: { custom_checkbox: true }
+  - pymdownx.emoji
+
+plugins:
+  - same-dir
+  - search: { lang: fr }
+
+nav:
+  - Accueil: showcase/index.md
+  - Mode d'emploi: GUIDE.md
+  - "Module 00 · Setup & outillage": 00-setup/README.md
+  - "Module 01 · Fondations HTTP & FastAPI":
+      - Théorie: 01-fondations-http-et-fastapi/THEORIE.md
+      - Exercices: 01-fondations-http-et-fastapi/exercices/README.md
+      - "Solution — les choix": 01-fondations-http-et-fastapi/solutions/README.md
+      - Explication pas à pas: 01-fondations-http-et-fastapi/PAS-A-PAS.md
+  - Obtenir la formation: showcase/acheter.md

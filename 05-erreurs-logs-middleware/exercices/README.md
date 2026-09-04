@@ -138,4 +138,4 @@ ruff check . && ruff format --check . && mypy taskman && pytest
 git add -A && git commit -m "feat(module-05): exceptions métier + handlers RFC 9457 + middleware request-id + logs JSON"
 ```
 
-Puis [`../solutions/README.md`](../solutions/) et [`../PAS-A-PAS.md`](../PAS-A-PAS.md).
+Puis [`../solutions/README.md`](../solutions/README.md) et [`../PAS-A-PAS.md`](../PAS-A-PAS.md).

@@ -159,7 +159,7 @@ ruff check . && ruff format --check . && mypy taskman && pytest
 git add -A && git commit -m "feat(module-02): schémas Create/Update/Read, PATCH correct, types riches, query model"
 ```
 
-Puis lis [`../solutions/README.md`](../solutions/) (les choix) et
+Puis lis [`../solutions/README.md`](../solutions/README.md) (les choix) et
 [`../PAS-A-PAS.md`](../PAS-A-PAS.md) (ligne par ligne).
 
 **Mini-projet associé** : [`../../projets/checkpoints/linkstash/`](../../projets/checkpoints/linkstash/BRIEF.md).

@@ -1,0 +1,4 @@
+# Dépendances pour construire le site (vitrine ou complet) sur un hébergeur.
+# Local : préférer  pip install -e ".[docs]"
+mkdocs-material>=9.5,<10.0
+mkdocs-same-dir>=0.1.3

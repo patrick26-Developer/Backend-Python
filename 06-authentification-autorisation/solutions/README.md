@@ -1,6 +1,6 @@
 # Module 06 — Solutions : les choix de conception
 
-> Code dans [`taskman/`](taskman/). Explication ligne par ligne : [`../PAS-A-PAS.md`](../PAS-A-PAS.md).
+> Code dans `taskman/`. Explication ligne par ligne : [`../PAS-A-PAS.md`](../PAS-A-PAS.md).
 
 ```bash
 cd 06-authentification-autorisation/solutions

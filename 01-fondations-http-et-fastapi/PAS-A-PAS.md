@@ -2,7 +2,7 @@
 
 > Ce document explique la solution **ligne par ligne**. Objectif : qu'aucune ligne de
 > `models.py`, `store.py` et `main.py` ne reste un mystère. Garde les fichiers ouverts
-> à côté ([`solutions/`](solutions/)).
+> à côté ([`solutions/`](solutions/README.md)).
 
 ---
 

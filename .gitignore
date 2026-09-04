@@ -30,6 +30,7 @@ htmlcov/
 
 # ---- Site MkDocs généré ----
 site/
+site_showcase/
 
 # ---- Éditeurs / OS ----
 .idea/

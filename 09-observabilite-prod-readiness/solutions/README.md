@@ -1,7 +1,7 @@
 # Module 09 — Solutions : les choix de conception
 
-> Snapshot `taskman` v0.9.0 dans [`taskman/`](taskman/). Explication ligne par ligne :
-> [`../PAS-A-PAS.md`](../PAS-A-PAS.md). Métriques & alertes : [`taskman/observability/README.md`](taskman/observability/README.md).
+> Snapshot `taskman` v0.9.0 dans `taskman/`. Explication ligne par ligne :
+> [`../PAS-A-PAS.md`](../PAS-A-PAS.md). Métriques & alertes : `taskman/observability/README.md`.
 
 ```bash
 pytest -m "not e2e"

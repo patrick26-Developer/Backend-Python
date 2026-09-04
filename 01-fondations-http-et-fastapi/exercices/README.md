@@ -201,6 +201,6 @@ ruff check . && ruff format --check . && mypy taskman && pytest
 git add -A && git commit -m "feat(module-01): CRUD tasks en mémoire, typé et validé"
 ```
 
-Compare enfin avec [`../solutions/`](../solutions/) et lis
+Compare enfin avec [`../solutions/`](../solutions/README.md) et lis
 [`../solutions/README.md`](../solutions/README.md) : **les choix de conception** y sont
 expliqués, pas seulement le code.

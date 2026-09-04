@@ -137,7 +137,7 @@ ruff check . && ruff format --check . && mypy taskman && pytest -m "not e2e"
 git add -A && git commit -m "feat(module-08): cache + invalidation, pagination cursor, export NDJSON, tâches de fond"
 ```
 
-Puis [`../solutions/README.md`](../solutions/) et [`../PAS-A-PAS.md`](../PAS-A-PAS.md).
+Puis [`../solutions/README.md`](../solutions/README.md) et [`../PAS-A-PAS.md`](../PAS-A-PAS.md).
 
 **Mini-projet associé** : [`shorturl`](../../projets/checkpoints/shorturl/BRIEF.md) — ajoute-lui
 un cache de résolution + un compteur de clics asynchrone.

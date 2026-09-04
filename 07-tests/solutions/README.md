@@ -1,6 +1,6 @@
 # Module 07 — Solutions
 
-> Pour ce module, la **solution est la suite de tests elle-même** : [`tests/`](tests/) (copie
+> Pour ce module, la **solution est la suite de tests elle-même** : `tests/` (copie
 > figée de l'état `taskman` v0.7.0). Explication : [`../PAS-A-PAS.md`](../PAS-A-PAS.md).
 
 ```bash

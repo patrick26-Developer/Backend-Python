@@ -147,4 +147,4 @@ ruff check . && ruff format --check . && mypy taskman && pytest
 git add -A && git commit -m "refactor(module-03): architecture en couches + DI + config typée"
 ```
 
-Puis [`../solutions/README.md`](../solutions/) et [`../PAS-A-PAS.md`](../PAS-A-PAS.md).
+Puis [`../solutions/README.md`](../solutions/README.md) et [`../PAS-A-PAS.md`](../PAS-A-PAS.md).

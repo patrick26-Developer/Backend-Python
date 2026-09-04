@@ -167,6 +167,6 @@ ruff check . && ruff format --check . && mypy taskman && pytest
 git add -A && git commit -m "feat(module-04): SQLAlchemy 2.0 async + Alembic + repository SQL"
 ```
 
-Puis [`../solutions/README.md`](../solutions/) et [`../PAS-A-PAS.md`](../PAS-A-PAS.md).
+Puis [`../solutions/README.md`](../solutions/README.md) et [`../PAS-A-PAS.md`](../PAS-A-PAS.md).
 
 **Mini-projet associé** : [`../../projets/checkpoints/shorturl/`](../../projets/checkpoints/shorturl/BRIEF.md).
