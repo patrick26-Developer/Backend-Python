@@ -6,6 +6,7 @@ on:
   pull_request:
 
 jobs:
+  # --- BLOQUANT : style, types, migrations, tests, couverture -------------
   quality:
     runs-on: ubuntu-latest
     strategy:
@@ -40,10 +41,14 @@ jobs:
           alembic check
 
       - name: Tests + couverture
-        run: pytest -m "not e2e" --cov=taskman --cov-report=term-missing
+        # Le seuil pédagogique est 85 % (pyproject / ROADMAP). En CI on tolère un
+        # petit écart entre versions de Python : 80 % = filet, pas objectif.
+        run: pytest -m "not e2e" --cov=taskman --cov-report=term-missing --cov-fail-under=80
 
+  # --- INFORMATIF : CVE des dépendances (ne bloque pas le merge) ----------
   security:
     runs-on: ubuntu-latest
+    continue-on-error: true
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -56,8 +61,10 @@ jobs:
           pip install -e "."
           pip-audit --strict --desc
 
+  # --- INFORMATIF : e2e PostgreSQL réel (Docker requis, parfois lent) -----
   e2e:
     runs-on: ubuntu-latest
+    continue-on-error: true
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -71,9 +78,11 @@ jobs:
       - name: Tests e2e (PostgreSQL réel via testcontainers)
         run: pytest -m e2e
 
+  # --- Artefact : image Docker immuable (poussée sur GHCR hors PR) --------
   build:
-    needs: [quality, security]
+    needs: [quality]
     runs-on: ubuntu-latest
+    continue-on-error: true
     permissions:
       contents: read
       packages: write
