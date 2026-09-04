@@ -1,8 +1,4 @@
-# Render Blueprint — déploie le site VITRINE (public) de la formation.
-#
-# Ce blueprint ne construit QUE `mkdocs.showcase.yml` : accueil + mode d'emploi +
-# Modules 00 et 01. Le reste du dépôt (contenu payant) n'est jamais copié dans le site
-# publié, même si le dépôt Render est branché sur le dépôt privé complet.
+# Render Blueprint — déploie le site complet de la formation (public, gratuit).
 #
 # Mise en place : https://dashboard.render.com  ->  New  ->  Blueprint  ->  choisir ce dépôt.
 
@@ -10,18 +6,9 @@ services:
   - type: web
     name: fastapi-formation-vitrine
     runtime: static
-    buildCommand: pip install -r requirements-docs.txt && mkdocs build -f mkdocs.showcase.yml
-    staticPublishPath: ./site_showcase
+    buildCommand: pip install -r requirements-docs.txt && mkdocs build
+    staticPublishPath: ./site
     pullRequestPreviewsEnabled: false
-    buildFilter:
-      paths:
-        - showcase/**
-        - 00-setup/**
-        - 01-fondations-http-et-fastapi/**
-        - GUIDE.md
-        - mkdocs.showcase.yml
-        - requirements-docs.txt
-        - render.yaml
     envVars:
       - key: PYTHON_VERSION
         value: "3.12.6"

@@ -2,12 +2,22 @@
 
 Checkpoint d'après le **Module 07**. Sondages construits en **TDD**.
 
+## Installation autonome (sans cloner tout le dépôt)
+
+Copie ce dossier (`pollup/`, `tests/`, `pyproject.toml`), puis :
+
 ```bash
-# depuis ce dossier (le venv du dépôt racine suffit)
-python -m uvicorn pollup.api:app --reload   # http://127.0.0.1:8000/docs
-python -m pytest                            # tests + couverture (échoue si < 90 %)
-python -m mypy pollup                        # --strict, 0 erreur
+python -m venv .venv
+source .venv/bin/activate        # Windows : .venv\Scripts\activate
+pip install "fastapi[standard]" pytest pytest-cov mypy ruff
+
+uvicorn pollup.api:app --reload   # http://127.0.0.1:8000/docs
+pytest                            # 23 tests + couverture (échoue si < 90 %) — 96 % obtenu
+mypy pollup                       # --strict, 0 erreur
 ```
+
+Si tu es déjà dans le dépôt complet (le venv racine a tout), lance directement
+`python -m uvicorn ...`, `python -m pytest`, `python -m mypy pollup` depuis ce dossier.
 
 Auth « simple par token » : `Authorization: Bearer <identité>` — le jeton **est** l'identité
 (du créateur, du votant). Pas de JWT (hors périmètre).

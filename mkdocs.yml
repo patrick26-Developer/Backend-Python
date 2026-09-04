@@ -12,22 +12,20 @@ site_dir: site
 
 exclude_docs: |
   .venv/
+  .git/
   .github/
   .ruff_cache/
   .mypy_cache/
   .pytest_cache/
+  __pycache__/
   site/
+  site_showcase/
   node_modules/
-  tests/
-  **/taskman/
-  **/alembic/
-  **/solution/
-  **/starter/
-  CONTRIBUTING.md
 
 not_in_nav: |
   LICENSE-CODE.txt
   LICENSE-CONTENT.txt
+  en.md
 
 theme:
   name: material
@@ -56,6 +54,22 @@ theme:
     - search.highlight
     - search.suggest
 
+extra_css:
+  - stylesheets/extra.css
+
+extra:
+  alternate:
+    - name: Français
+      link: /
+      lang: fr
+    - name: English
+      link: en/
+      lang: en
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/patrick26-Developer/Backend-Python
+      name: Code source sur GitHub
+
 markdown_extensions:
   - admonition
   - attr_list
@@ -71,17 +85,20 @@ markdown_extensions:
   - pymdownx.snippets
   - pymdownx.tabbed: { alternate_style: true }
   - pymdownx.tasklist: { custom_checkbox: true }
-  - pymdownx.emoji
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
 
 plugins:
   - same-dir
   - search: { lang: fr }
 
 nav:
-  - Accueil: README.md
+  - Accueil: index.md
   - Mode d'emploi: GUIDE.md
   - Feuille de route: ROADMAP.md
   - Couverture de la doc FastAPI: DOC-COVERAGE.md
+  - Contribuer: soutenir.md
   - Licence: LICENSING.md
   - Sécurité: SECURITY.md
   - Annexes:
@@ -154,3 +171,28 @@ nav:
           - "ADR 0003 · Versionnage par URI": docs/adr/0003-versionnage-api-uri.md
   - Projets:
       - Vue d'ensemble: projets/README.md
+      - Checkpoints:
+          - "linkstash (marque-pages)":
+              - Énoncé: projets/checkpoints/linkstash/BRIEF.md
+              - Solution: projets/checkpoints/linkstash/solution/README.md
+              - Choix de conception: projets/checkpoints/linkstash/solution/SOLUTION.md
+          - "shorturl (raccourcisseur d'URL)":
+              - Énoncé: projets/checkpoints/shorturl/BRIEF.md
+              - Solution: projets/checkpoints/shorturl/solution/README.md
+              - Choix de conception: projets/checkpoints/shorturl/solution/SOLUTION.md
+          - "pollup (sondages, TDD)":
+              - Énoncé: projets/checkpoints/pollup/BRIEF.md
+              - Solution: projets/checkpoints/pollup/solution/README.md
+              - Choix de conception: projets/checkpoints/pollup/solution/SOLUTION.md
+          - "statuspage (supervision)":
+              - Énoncé: projets/checkpoints/statuspage/BRIEF.md
+              - Solution: projets/checkpoints/statuspage/solution/README.md
+              - Choix de conception: projets/checkpoints/statuspage/solution/SOLUTION.md
+      - Projets de domaine:
+          - "shopfast (e-commerce)":
+              - Énoncé: projets/shopfast/BRIEF.md
+              - Solution: projets/shopfast/solution/README.md
+              - Choix de conception: projets/shopfast/solution/SOLUTION.md
+          - "inkwell (blog / CMS)": projets/inkwell/BRIEF.md
+          - "saashub (SaaS multi-tenant)": projets/saashub/BRIEF.md
+  - Déploiement du site: docs/publication.md

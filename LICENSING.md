@@ -9,14 +9,11 @@ Ce dépôt utilise **deux licences** distinctes.
 
 **En clair :**
 
-- Un acheteur de la formation apprend avec, hors ligne, et réutilise le **code** dans ses
-  propres projets sans restriction.
-- Personne n'a le droit de **revendre, rehéberger ou republier le contenu** (théorie,
-  explications, exercices corrigés) sans accord écrit de l'auteur.
-- Pour une licence équipe / école / entreprise : mb.patrickdegrace@gmail.com
-
-> ⚠️ **GitHub public + vente** : si tu publies ce dépôt en *public* sur GitHub, tout le
-> contenu devient lisible par tous (même si la revente reste interdite). Pour vendre
-> réellement, garde le dépôt **privé** et distribue-le aux acheteurs (invitation, archive
-> versionnée, ou plateforme type Gumroad/Podia). Publie éventuellement une **version
-> vitrine** publique (README + Module 00 + 01) et garde 02→12 en privé.
+- Cette formation est **gratuite et en accès libre** — dépôt GitHub public, site public.
+  Tu peux tout lire, apprendre, cloner, exécuter et réutiliser le **code** dans tes propres
+  projets sans restriction (licence MIT).
+- Ce que tu n'as **pas** le droit de faire : **revendre, rehéberger ou republier le contenu
+  pédagogique** (théorie, explications, exercices corrigés) ailleurs sous ton nom. C'est une
+  protection contre le plagiat, pas une restriction de lecture.
+- Pour une licence équipe / école / entreprise (formation dispensée en interne à partir de
+  ce contenu) : mb.patrickdegrace@gmail.com

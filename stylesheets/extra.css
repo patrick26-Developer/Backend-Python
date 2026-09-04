@@ -1,0 +1,108 @@
+/* Polish premium pour la vitrine — reste discret, s'appuie sur les tokens Material. */
+
+:root {
+  --fp-gradient: linear-gradient(135deg, #00bfa5 0%, #00897b 55%, #005f56 100%);
+}
+
+/* --- Hero de la page d'accueil ------------------------------------------ */
+.fp-hero {
+  margin: -1.2rem -1.2rem 2rem -1.2rem;
+  padding: 3.2rem 1.6rem 2.6rem;
+  border-radius: 0 0 0.6rem 0.6rem;
+  background: var(--fp-gradient);
+  color: #fff;
+  text-align: center;
+}
+.fp-hero h1 {
+  color: #fff;
+  font-size: 2.1rem;
+  margin: 0 0 0.6rem;
+  letter-spacing: -0.01em;
+}
+.fp-hero p {
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 1.15rem;
+  max-width: 46rem;
+  margin: 0 auto;
+}
+.fp-hero .fp-badges {
+  margin-top: 1.4rem;
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.fp-hero .fp-badges span {
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 2rem;
+  padding: 0.25rem 0.9rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+.fp-hero .fp-cta {
+  margin-top: 1.6rem;
+  display: flex;
+  gap: 0.7rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.fp-hero .fp-cta a {
+  border-radius: 2rem;
+  padding: 0.6rem 1.4rem;
+  font-weight: 700;
+  text-decoration: none;
+  font-size: 0.92rem;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.fp-hero .fp-cta a.fp-primary {
+  background: #fff;
+  color: #00695c;
+}
+.fp-hero .fp-cta a.fp-ghost {
+  background: transparent;
+  color: #fff;
+  border: 1.5px solid rgba(255, 255, 255, 0.7);
+}
+.fp-hero .fp-cta a:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+}
+
+/* --- Grid cards : un peu plus de respiration et d'accent ---------------- */
+.md-typeset .grid.cards > ul > li,
+.md-typeset .grid.cards > ol > li {
+  border-radius: 0.5rem;
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+.md-typeset .grid.cards > ul > li:hover,
+.md-typeset .grid.cards > ol > li:hover {
+  border-color: var(--md-accent-fg-color);
+  transform: translateY(-2px);
+}
+
+/* --- Bandeau "gratuit" / "premium" --------------------------------------- */
+.fp-pill {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  padding: 0.15rem 0.6rem;
+  border-radius: 1rem;
+  margin-left: 0.4rem;
+  vertical-align: middle;
+}
+.fp-pill.free {
+  background: #e0f2f1;
+  color: #00695c;
+}
+:root[data-md-color-scheme="slate"] .fp-pill.free {
+  background: rgba(0, 191, 165, 0.18);
+  color: #64ffda;
+}
+
+/* --- Petites tables plus lisibles ---------------------------------------- */
+.md-typeset table:not([class]) th {
+  background: var(--md-default-fg-color--lightest);
+}

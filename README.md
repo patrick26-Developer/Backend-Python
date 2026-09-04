@@ -156,5 +156,6 @@ Détails, alternative `uv`, et outillage : [`00-setup/README.md`](00-setup/READM
 - **Code source** (`taskman/`, `tests/`, `**/solutions/**`, config) → **MIT**
   ([`LICENSE-CODE.txt`](LICENSE-CODE.txt)). Réutilise-le librement dans tes projets.
 - **Contenu pédagogique** (théorie, explications, corrigés, briefs) → **tous droits
-  réservés** ([`LICENSE-CONTENT.txt`](LICENSE-CONTENT.txt)). Formation payante : lecture et
-  apprentissage personnels autorisés, redistribution et revente interdites.
+  réservés** ([`LICENSE-CONTENT.txt`](LICENSE-CONTENT.txt)). **Formation gratuite et en
+  accès libre** : lecture et apprentissage personnels autorisés ; redistribution et revente
+  du contenu par un tiers interdites (on protège contre le plagiat, pas contre la lecture).

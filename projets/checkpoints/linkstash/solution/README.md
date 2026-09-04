@@ -2,10 +2,27 @@
 
 Checkpoint d'après le **Module 02**. API de marque-pages, **sans base de données**.
 
+## Installation autonome (sans cloner tout le dépôt)
+
+Copie ce dossier (`linkstash/`, `tests/`, `pyproject.toml`) où tu veux, puis :
+
 ```bash
-# depuis ce dossier (le venv du dépôt racine suffit)
+python -m venv .venv
+source .venv/bin/activate        # Windows : .venv\Scripts\activate
+pip install "fastapi[standard]" pytest mypy ruff
+
+uvicorn linkstash.api:app --reload   # http://127.0.0.1:8000/docs
+pytest -q                            # 19 tests
+mypy linkstash                       # --strict, 0 erreur
+ruff check . && ruff format --check .
+```
+
+Si tu es déjà dans le dépôt complet (le venv racine a tout) :
+
+```bash
+# depuis ce dossier
 python -m uvicorn linkstash.api:app --reload   # http://127.0.0.1:8000/docs
-python -m pytest -q                            # 24 tests
+python -m pytest -q                            # 19 tests
 python -m mypy linkstash                        # --strict, 0 erreur
 ```
 
