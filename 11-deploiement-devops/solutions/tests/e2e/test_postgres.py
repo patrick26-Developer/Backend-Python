@@ -57,7 +57,14 @@ async def pg_engine(postgres_url: str) -> AsyncIterator[AsyncEngine]:
 @pytest_asyncio.fixture
 async def pg_client(pg_engine: AsyncEngine) -> AsyncIterator[AsyncClient]:
     factory: async_sessionmaker = create_session_factory(pg_engine)
-    app = create_app(Settings(env="test", database_url="postgresql+asyncpg://x", log_json=False))
+    app = create_app(
+        Settings(
+            env="test",
+            database_url="postgresql+asyncpg://x",
+            log_json=False,
+            rate_limit_enabled=False,
+        )
+    )
 
     async def _override() -> AsyncIterator:
         async with factory() as session:

@@ -57,12 +57,23 @@ async def pg_engine(postgres_url: str) -> AsyncIterator[AsyncEngine]:
 @pytest_asyncio.fixture
 async def pg_client(pg_engine: AsyncEngine) -> AsyncIterator[AsyncClient]:
     factory: async_sessionmaker = create_session_factory(pg_engine)
-    app = create_app(Settings(env="test", database_url="postgresql+asyncpg://x", log_json=False))
+    app = create_app(
+        Settings(
+            env="test",
+            database_url="postgresql+asyncpg://x",
+            log_json=False,
+            rate_limit_enabled=False,
+        )
+    )
+    from taskman.api.ratelimit import InMemoryRateLimiter
     from taskman.core.cache import InMemoryCache
     from taskman.realtime import InMemoryEventPublisher
 
+    # ASGITransport ne joue pas le `lifespan` : on pose à la main l'état que les
+    # dépendances attendent dans `app.state` (comme le fait `tests/conftest.py`).
     app.state.cache = InMemoryCache()
     app.state.event_publisher = InMemoryEventPublisher()
+    app.state.rate_limiter = InMemoryRateLimiter()
 
     async def _override() -> AsyncIterator:
         async with factory() as session:
