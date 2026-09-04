@@ -27,9 +27,9 @@ complète, testée, expliquée** (`solution/`). Tu peux les faire :
 
 | Projet | Domaine | Ce qu'il pousse plus loin que `taskman` | Statut |
 |---|---|---|---|
-| [`shopfast`](shopfast/BRIEF.md) | **E-commerce** (catalogue, panier, commandes, paiement simulé, stock) | transactions, cohérence, idempotence des paiements, jobs de fond, verrous de stock | 🚧 |
-| [`inkwell`](inkwell/BRIEF.md) | **Blog / CMS** (articles, versions, commentaires, médias, rôles éditoriaux) | upload de fichiers, workflow de publication, cache de lecture, SEO/slug, modération | 🚧 |
-| [`saashub`](saashub/BRIEF.md) | **SaaS multi-tenant** (organisations, membres, rôles, facturation, quotas) | isolation multi-tenant, RBAC fin, limites d'usage, webhooks, plans & billing | 🚧 |
+| [`shopfast`](shopfast/BRIEF.md) | **E-commerce** (catalogue, panier, commandes, paiement simulé, stock) | transactions, cohérence, idempotence des paiements, jobs de fond, verrous de stock | ✅ énoncé + [solution](shopfast/solution/) (invariants durs) |
+| [`inkwell`](inkwell/BRIEF.md) | **Blog / CMS** (articles, versions, commentaires, médias, rôles éditoriaux) | upload de fichiers, workflow de publication, cache de lecture, SEO/slug, modération | ✅ énoncé par phases — solution à construire (patrons dans `taskman` + `shopfast`) |
+| [`saashub`](saashub/BRIEF.md) | **SaaS multi-tenant** (organisations, membres, rôles, facturation, quotas) | isolation multi-tenant, RBAC fin, limites d'usage, webhooks, plans & billing | ✅ énoncé par phases — solution à construire (patrons dans `taskman` + `shopfast`) |
 
 ## Règle du jeu
 

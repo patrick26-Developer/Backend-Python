@@ -58,3 +58,29 @@ slugs/SEO, modération**.
 - [ ] Un upload non-image ou trop gros est rejeté (type réel vérifié).
 - [ ] Le cache de l'article public est invalidé à la mise à jour.
 - [ ] `ruff` + `mypy --strict` + `pytest` au vert ; couverture > 85 %.
+
+---
+
+## Construire la solution : quels patrons réutiliser
+
+Tu as déjà, dans ce dépôt, tout le nécessaire. Chaque invariant d'`inkwell` a un patron de
+référence :
+
+| Invariant `inkwell` | Patron à copier | Où |
+|---|---|---|
+| couches api → service → repo, `create_app()`, DI | Module 03 + `projets/shopfast/solution` | `03-architecture-projet-mature/` |
+| PostgreSQL async + Alembic + `TZDateTime` | Module 04 + `projets/checkpoints/shorturl/solution` | `04-bases-de-donnees/` |
+| `slug` unique + collisions (`mon-titre-2`) | même logique que l'alias de `shorturl` (contrainte + `IntegrityError` + suffixe incrémental) | `projets/checkpoints/shorturl/solution/shorturl/service.py` |
+| machine à états `draft→review→published→archived`, transition illégale → 409 | `statuspage` (incidents) + `shopfast` (`_NEXT_STATUS`) | `projets/checkpoints/statuspage/solution/statuspage/service.py` |
+| brouillon jamais visible en public | filtre `status == "published"` **dans la requête** (comme l'isolation `user_id` de `shopfast`) | `projets/shopfast/solution/shopfast/repositories.py` |
+| erreurs métier (`SlugTakenError`, `InvalidTransitionError`) → format unifié | Module 05 (`DomainError` + RFC 9457) | `05-erreurs-logs-middleware/` |
+| auth + rôles éditoriaux (`author`/`editor`/`admin`) | Module 06 + `shopfast` (`require_admin`) | `06-authentification-autorisation/` |
+| cache de lecture de l'article public + invalidation à la publication | Module 08 (`cache-aside`, `Cache` Protocol, `delete_prefix`) | `08-async-avance-performance/` |
+| upload d'image : vérifier la **signature** (magic bytes), borner la taille, nom serveur | nouveau — mais `BodySizeLimitMiddleware` du Module 10 borne déjà le payload | `10-securite-approfondie/` |
+| miniatures en tâche de fond | Module 08 (`BackgroundTasks` / `taskiq`) | `08-async-avance-performance/` |
+| événement `ArticlePublished` (outbox) → invalidation cache + webhook | Module 12 (outbox pattern) | `12-architecture-scalabilite/` |
+| versionnage de l'API publique | Module 12 (`/v1`, `/v2`) | `12-architecture-scalabilite/` |
+
+Ordre conseillé : suis les phases P1→P11 du tableau ci-dessus, une phase = une session, en
+gardant les tests des phases précédentes verts. Le `Storage` en `Protocol` (P2) se teste avec
+une implémentation en mémoire, comme le `PollRepository` de `pollup`.
