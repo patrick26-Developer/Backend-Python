@@ -1,0 +1,14 @@
+# Config locale de la solution `statuspage`.
+# Dépendances : dépôt racine (fastapi, sqlalchemy[asyncio], aiosqlite, pydantic-settings,
+# httpx, prometheus-client, pytest, pytest-asyncio).
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+addopts = "-ra -q --strict-markers"
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+plugins = ["pydantic.mypy"]

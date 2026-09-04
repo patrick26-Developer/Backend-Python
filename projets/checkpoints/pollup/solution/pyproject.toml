@@ -1,0 +1,16 @@
+# Config locale de la solution `pollup`.
+# Dépendances : dépôt racine (fastapi, pydantic, httpx, pytest).
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+addopts = "-ra -q --strict-markers --cov=pollup --cov-report=term-missing --cov-fail-under=90"
+
+[tool.coverage.run]
+branch = true
+omit = ["pollup/__init__.py"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+plugins = ["pydantic.mypy"]

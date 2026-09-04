@@ -35,6 +35,15 @@ type-all: type ## Vérifie aussi les solutions de chaque module (dossier par dos
 		echo "mypy $$d"; ( cd "$${d%/solutions}" && mypy solutions ) || exit 1; \
 	done
 
+.PHONY: check-projets
+check-projets: ## ruff + mypy + pytest pour chaque solution de projet (checkpoints + domaine)
+	@for d in projets/checkpoints/*/solution projets/*/solution; do \
+		[ -f "$$d/pyproject.toml" ] || continue; \
+		echo "== $$d =="; \
+		( cd "$$d" && ruff check . && ruff format --check . \
+			&& mypy $$(ls -d */ | grep -v tests | tr -d /) && pytest -q ) || exit 1; \
+	done
+
 .PHONY: test
 test: ## Lance la suite de tests
 	pytest

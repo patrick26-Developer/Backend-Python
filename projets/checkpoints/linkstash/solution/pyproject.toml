@@ -1,0 +1,12 @@
+# Config locale de la solution `linkstash` : la rend exécutable/testable isolément.
+# Dépendances : celles du dépôt racine (fastapi, pydantic, httpx, pytest…) — pas de venv séparé.
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+addopts = "-ra -q --strict-markers"
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+plugins = ["pydantic.mypy"]

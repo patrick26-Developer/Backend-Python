@@ -1,0 +1,16 @@
+# Config locale de la solution `shorturl` : exécutable/testable isolément.
+# Dépendances : celles du dépôt racine (fastapi, sqlalchemy[asyncio], aiosqlite, alembic,
+# pydantic-settings, httpx, pytest, pytest-asyncio).
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+addopts = "-ra -q --strict-markers"
+markers = ["slow: test lent (sous-processus alembic)"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+plugins = ["pydantic.mypy"]
+exclude = ['^alembic/']
