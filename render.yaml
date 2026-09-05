@@ -6,7 +6,7 @@ services:
   - type: web
     name: fastapi-formation-vitrine
     runtime: static
-    buildCommand: pip install -r requirements-docs.txt && mkdocs build
+    buildCommand: pip install -r requirements-docs.txt && mkdocs build && mkdocs build -f mkdocs.en.yml
     staticPublishPath: ./site
     pullRequestPreviewsEnabled: false
     envVars:

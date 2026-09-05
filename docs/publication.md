@@ -9,8 +9,22 @@ serveur applicatif derrière.
 - **Hébergement** : [Render](https://render.com) (offre statique gratuite), via le
   blueprint [`render.yaml`](https://github.com/patrick26-Developer/Backend-Python/blob/main/render.yaml)
   à la racine du dépôt.
-- **Build** : `pip install -r requirements-docs.txt && mkdocs build` → dossier `site/`.
+- **Build** : `mkdocs build && mkdocs build -f mkdocs.en.yml` → dossier `site/`.
 - **Déclenchement** : chaque `git push` sur `main` redéploie automatiquement.
+
+## Deux configs, un seul site
+
+`theme.language` de Material ne peut pas varier par page dans un seul build (recherche,
+bascule clair/sombre... tout serait en français, même sur les pages anglaises). D'où deux
+configs :
+
+| Config | Contenu | Interface | Sortie |
+|---|---|---|---|
+| `mkdocs.yml` | tout le cursus (13 modules, projets…) | français | `site/` |
+| `mkdocs.en.yml` | ce qui est traduit (la page d'accueil pour l'instant) | **anglais** | `site/en/` (écrase le `en/` du premier build) |
+
+Ajouter une page en anglais : la traduire, l'ajouter au `nav` de `mkdocs.en.yml`, l'exclure
+du `nav`/`exclude_docs` si besoin dans `mkdocs.yml`.
 
 ## Reproduire ce site en local
 
@@ -18,8 +32,8 @@ serveur applicatif derrière.
 git clone https://github.com/patrick26-Developer/Backend-Python.git
 cd Backend-Python
 pip install -e ".[docs]"
-mkdocs serve       # http://127.0.0.1:8000, rechargement à chaud
-# ou : mkdocs build puis servir site/ avec n'importe quel serveur statique
+mkdocs serve                       # site français, http://127.0.0.1:8000, rechargement à chaud
+mkdocs build -f mkdocs.en.yml      # génère site/en/ (page anglaise) à part
 ```
 
 ## Alternatives d'hébergement

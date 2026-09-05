@@ -1,18 +1,59 @@
-/* Polish premium pour la page d'accueil — inspiré des sites de Vite / React :
-   bande sombre fixe (indépendante du bascule clair/sombre), titre en dégradé,
-   boutons nets, aucune couleur verte. */
+/* Page d'accueil inspirée de vitejs.fr : fond qui suit le thème clair/sombre, halo animé,
+   titre en dégradé, boutons nets — avec les couleurs officielles de la doc FastAPI. */
 
-/* --- Hero -------------------------------------------------------------- */
+:root {
+  --fp-teal: #009485;        /* teal FastAPI */
+  --fp-teal-light: #00c7b7;
+  --fp-teal-dark: #00695c;
+  --fp-cyan: #2dd4c8;
+
+  /* couleurs Material pilotées par les mêmes teintes que la doc FastAPI */
+  --md-primary-fg-color: var(--fp-teal);
+  --md-primary-fg-color--light: var(--fp-teal-light);
+  --md-primary-fg-color--dark: var(--fp-teal-dark);
+  --md-accent-fg-color: var(--fp-teal-light);
+}
+
+/* --- Hero ---------------------------------------------------------------
+   Fond neutre du thème (s'adapte clair/sombre) + halo dégradé animé, comme
+   le logo lumineux de la page d'accueil de Vite. */
 .fp-hero {
-  margin: -1.2rem -1.2rem 2.2rem -1.2rem;
-  padding: 4.2rem 1.6rem 3.2rem;
-  border-radius: 0 0 0.75rem 0.75rem;
+  position: relative;
+  overflow: hidden;
+  margin: -1.2rem -1.2rem 2.4rem -1.2rem;
+  padding: 4.6rem 1.6rem 3.4rem;
   text-align: center;
-  color: #e5e7eb;
-  background:
-    radial-gradient(circle at 18% 15%, rgba(99, 102, 241, 0.35), transparent 45%),
-    radial-gradient(circle at 85% 0%, rgba(56, 189, 248, 0.28), transparent 42%),
-    #0b0f19;
+  border-radius: 0 0 0.75rem 0.75rem;
+  background: var(--md-default-bg-color);
+}
+.fp-hero::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  top: -180px;
+  left: 50%;
+  width: 640px;
+  height: 420px;
+  margin-left: -320px;
+  background: radial-gradient(
+    closest-side,
+    rgba(0, 199, 183, 0.38),
+    rgba(0, 148, 133, 0.16) 55%,
+    transparent 75%
+  );
+  filter: blur(6px);
+  animation: fp-float 8s ease-in-out infinite;
+}
+@keyframes fp-float {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(26px) scale(1.08); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .fp-hero::before { animation: none; }
+}
+.fp-hero > * {
+  position: relative;
+  z-index: 1;
 }
 .fp-hero .fp-eyebrow {
   display: inline-block;
@@ -20,31 +61,39 @@
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #a5b4fc;
-  border: 1px solid rgba(165, 180, 252, 0.4);
+  color: var(--fp-teal);
+  border: 1px solid var(--fp-teal);
   border-radius: 2rem;
   padding: 0.25rem 0.85rem;
-  margin-bottom: 1.1rem;
+  margin-bottom: 1.2rem;
 }
 .fp-hero h1 {
   margin: 0 0 0.9rem;
-  font-size: 2.6rem;
+  font-size: 2.9rem;
   font-weight: 800;
   letter-spacing: -0.02em;
   line-height: 1.15;
-  background: linear-gradient(90deg, #818cf8 0%, #38bdf8 55%, #a78bfa 100%);
+  background: linear-gradient(100deg, var(--fp-teal) 0%, var(--fp-cyan) 45%, var(--fp-teal-light) 100%);
+  background-size: 200% auto;
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
+  animation: fp-shine 7s linear infinite;
+}
+@keyframes fp-shine {
+  to { background-position: 200% center; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .fp-hero h1 { animation: none; }
 }
 .fp-hero p.fp-tagline {
-  color: #cbd5e1;
+  color: var(--md-default-fg-color--light);
   font-size: 1.15rem;
-  max-width: 42rem;
+  max-width: 40rem;
   margin: 0 auto;
 }
 .fp-hero .fp-cta {
-  margin-top: 1.8rem;
+  margin-top: 1.9rem;
   display: flex;
   gap: 0.7rem;
   justify-content: center;
@@ -59,24 +108,24 @@
   transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
 }
 .fp-hero .fp-cta a.fp-primary {
-  background: linear-gradient(90deg, #6366f1, #38bdf8);
-  color: #0b0f19;
+  background: linear-gradient(100deg, var(--fp-teal), var(--fp-teal-light));
+  color: #fff;
 }
 .fp-hero .fp-cta a.fp-ghost {
   background: transparent;
-  color: #e5e7eb;
-  border: 1.5px solid rgba(255, 255, 255, 0.28);
+  color: var(--fp-teal);
+  border: 1.5px solid var(--fp-teal);
 }
 .fp-hero .fp-cta a:hover {
   transform: translateY(-1px);
   opacity: 0.92;
-  box-shadow: 0 8px 20px rgba(56, 189, 248, 0.2);
+  box-shadow: 0 8px 20px rgba(0, 148, 133, 0.25);
+}
+:root:not([data-md-color-scheme="slate"]) .fp-hero .fp-cta a.fp-ghost:hover {
+  background: rgba(0, 148, 133, 0.08);
 }
 
-/* Bloc de code juste sous le hero (quickstart copiable) — un peu plus large */
-.fp-quickstart {
-  margin-top: -0.6rem;
-}
+/* Bloc de code sous le hero (quickstart copiable) */
 .fp-quickstart .highlight {
   border-radius: 0.5rem;
 }
@@ -89,11 +138,11 @@
 }
 .md-typeset .grid.cards > ul > li:hover,
 .md-typeset .grid.cards > ol > li:hover {
-  border-color: var(--md-accent-fg-color);
+  border-color: var(--fp-teal-light);
   transform: translateY(-2px);
 }
 
-/* --- Bandeau "gratuit" / pastille ----------------------------------------- */
+/* --- Pastille -------------------------------------------------------- */
 .fp-pill {
   display: inline-block;
   font-size: 0.72rem;
@@ -104,12 +153,12 @@
   border-radius: 1rem;
   margin-left: 0.4rem;
   vertical-align: middle;
-  background: rgba(99, 102, 241, 0.14);
-  color: #4f46e5;
+  background: rgba(0, 148, 133, 0.14);
+  color: var(--fp-teal);
 }
 :root[data-md-color-scheme="slate"] .fp-pill {
-  background: rgba(129, 140, 248, 0.18);
-  color: #a5b4fc;
+  background: rgba(45, 212, 200, 0.18);
+  color: var(--fp-cyan);
 }
 
 /* --- Petites tables plus lisibles ---------------------------------------- */

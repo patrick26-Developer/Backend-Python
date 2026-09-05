@@ -1,0 +1,64 @@
+# Build de la page anglaise, avec une interface ENTIÈREMENT en anglais (recherche,
+# bascule clair/sombre, etc.) — chose que `theme.language` ne peut pas faire par page
+# dans un seul mkdocs.yml. On construit donc un second petit site, dans site/en/.
+#
+# docs_dir dédié (i18n/en/, pas la racine du dépôt) : pas de conflit avec l'index.md
+# français, pas besoin du plugin same-dir ni d'une longue liste d'exclusions.
+#
+# Contenu traduit aujourd'hui : la page d'accueil uniquement. Le reste du cursus est en
+# français (voir mkdocs.yml) — traduire les 13 modules est un chantier séparé, à faire
+# progressivement : ajouter le fichier dans i18n/en/ et l'entrée dans `nav` ci-dessous.
+#
+# Build (après le site principal) :  mkdocs build -f mkdocs.en.yml
+
+site_name: "Mastering FastAPI"
+site_description: "A complete, hands-on curriculum to design, build, test and operate production-grade FastAPI APIs."
+site_author: "Patrick De Grâce"
+copyright: "&copy; 2026 Patrick De Grâce"
+
+docs_dir: i18n/en
+site_dir: site/en
+
+theme:
+  name: material
+  language: en
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: teal
+      accent: teal
+      toggle: { icon: material/weather-night, name: Dark mode }
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: teal
+      accent: teal
+      toggle: { icon: material/weather-sunny, name: Light mode }
+  features:
+    - navigation.instant
+    - navigation.top
+    - navigation.footer
+    - content.code.copy
+
+# La feuille de style est partagée avec le site principal (chemin absolu : les deux
+# builds sont servis depuis la même racine de domaine).
+extra_css:
+  - /stylesheets/extra.css
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - def_list
+  - md_in_html
+  - tables
+  - toc: { permalink: true }
+  - pymdownx.superfences
+  - pymdownx.highlight: { anchor_linenums: true, line_spans: __span }
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+
+plugins:
+  - search: { lang: en }
+
+nav:
+  - Home: index.md

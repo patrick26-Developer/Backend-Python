@@ -21,11 +21,11 @@ exclude_docs: |
   site/
   site_showcase/
   node_modules/
+  i18n/
 
 not_in_nav: |
   LICENSE-CODE.txt
   LICENSE-CONTENT.txt
-  en.md
 
 theme:
   name: material
@@ -33,13 +33,13 @@ theme:
   palette:
     - media: "(prefers-color-scheme: light)"
       scheme: default
-      primary: indigo
-      accent: blue
+      primary: teal
+      accent: teal
       toggle: { icon: material/weather-night, name: Mode sombre }
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
-      primary: indigo
-      accent: blue
+      primary: teal
+      accent: teal
       toggle: { icon: material/weather-sunny, name: Mode clair }
   features:
     - navigation.instant
