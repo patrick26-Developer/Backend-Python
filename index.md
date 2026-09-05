@@ -1,24 +1,25 @@
 <div class="fp-hero" markdown>
 
-# Maîtriser FastAPI <span class="fp-pill free">Accès libre</span>
+<span class="fp-eyebrow">Gratuit · 13 modules · FR / EN</span>
 
-Une formation **complète et exigeante** : concevoir, tester et exploiter des API FastAPI
-de niveau production. 13 modules, un projet fil rouge qui grandit à chaque étape, et le
-réflexe qualité partout — `ruff` · `mypy --strict` · `pytest`.
+# Maîtriser FastAPI
 
-<div class="fp-badges">
-<span>13 modules</span>
-<span>4 mini-projets</span>
-<span>1 projet e-commerce</span>
-<span>couverture &gt; 85 %</span>
-<span>FR / EN</span>
-</div>
+<p class="fp-tagline">Concevoir, tester et exploiter des API FastAPI de niveau production.
+Un projet fil rouge qui grandit à chaque module, jusqu'au déploiement.</p>
 
 <div class="fp-cta">
-<a class="fp-primary" href="00-setup/README/">Commencer — Module 00</a>
+<a class="fp-primary" href="00-setup/">Commencer — Module 00</a>
 <a class="fp-ghost" href="https://github.com/patrick26-Developer/Backend-Python">Voir le code sur GitHub</a>
 </div>
 
+</div>
+
+<div class="fp-quickstart" markdown>
+```bash
+git clone https://github.com/patrick26-Developer/Backend-Python.git
+cd Backend-Python && python -m venv .venv && source .venv/bin/activate
+pip install -e ".[dev]" && fastapi dev taskman/main.py
+```
 </div>
 
 ## Ce que tu obtiens

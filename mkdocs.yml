@@ -33,13 +33,13 @@ theme:
   palette:
     - media: "(prefers-color-scheme: light)"
       scheme: default
-      primary: teal
-      accent: teal
+      primary: indigo
+      accent: blue
       toggle: { icon: material/weather-night, name: Mode sombre }
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
-      primary: teal
-      accent: teal
+      primary: indigo
+      accent: blue
       toggle: { icon: material/weather-sunny, name: Mode clair }
   features:
     - navigation.instant

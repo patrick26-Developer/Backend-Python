@@ -1,16 +1,25 @@
 <div class="fp-hero" markdown>
 
-# Mastering FastAPI <span class="fp-pill free">Free & open</span>
+<span class="fp-eyebrow">Free · 13 modules · FR / EN</span>
 
-A complete, hands-on, progressive curriculum to design, build, test and operate
-production-grade FastAPI APIs. 13 modules, one running project that grows with every
-module, and the quality reflex everywhere — `ruff` · `mypy --strict` · `pytest`.
+# Mastering FastAPI
+
+<p class="fp-tagline">A complete, hands-on curriculum to design, build, test and operate
+production-grade FastAPI APIs — one running project that grows with every module.</p>
 
 <div class="fp-cta">
 <a class="fp-primary" href="https://github.com/patrick26-Developer/Backend-Python">View the repository on GitHub</a>
 <a class="fp-ghost" href="../">Site en français</a>
 </div>
 
+</div>
+
+<div class="fp-quickstart" markdown>
+```bash
+git clone https://github.com/patrick26-Developer/Backend-Python.git
+cd Backend-Python && python -m venv .venv && source .venv/bin/activate
+pip install -e ".[dev]" && fastapi dev taskman/main.py
+```
 </div>
 
 ## A note on the language
